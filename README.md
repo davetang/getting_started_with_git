@@ -1,17 +1,17 @@
-## README
-
 Table of Contents
 =================
 
-      * [README](#readme)
-      * [Getting started](#getting-started)
-      * [Branches](#branches)
-      * [Remotes](#remotes)
-      * [Useful commands](#useful-commands)
-      * [Undoing things](#undoing-things)
-      * [Links](#links)
+   * [Introduction](#introduction)
+   * [Getting started](#getting-started)
+   * [Branches](#branches)
+   * [Remotes](#remotes)
+   * [Useful commands](#useful-commands)
+   * [Undoing things](#undoing-things)
+   * [Useful links](#useful-links)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+## Introduction
 
 [Git](https://git-scm.com/) is an open source distributed version control system. [GitHub](https://github.com/) is an online repository where you can store your projects that use Git for its version controlling. There are many advantages to using version control and it is not too difficult to start using Git and GitHub. Furthermore, GitHub isn't just for storing code! I use it a lot just to store my study notes, which I like to share just in case they are useful to others.
 
