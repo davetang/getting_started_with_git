@@ -7,6 +7,7 @@ Table of Contents
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
    * [Undoing things](#undoing-things)
+   * [Submodules](#submodules)
    * [Useful links](#useful-links)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
@@ -243,6 +244,22 @@ git revert 5fc21f9beef4cfb3a9d834e843b3a5848e6fe05d
 
 # reverts the revert, restoring helo.txt
 git revert 003422db0129c4e68a8dd7d86652c6b4b40f0038
+```
+
+## Submodules
+
+[Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+
+To pull all submodules for a repository with submodules.
+
+```bash
+git submodule update --init --recursive
+```
+
+To update submodules.
+
+```bash
+git submodule update --recursive --remote
 ```
 
 ## Useful links
