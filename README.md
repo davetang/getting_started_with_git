@@ -264,9 +264,10 @@ git submodule update --recursive --remote
 
 ## Useful links
 
-* [tryGit](https://try.github.io/levels/1/challenges/1) created by Code School
-* Check out Karl Broman's git/github guide at <http://kbroman.org/github_tutorial/>
-* Chapter 5 Git for Scientists in [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do)
-* My [Git Wiki page](http://davetang.org/wiki2/index.php?title=Git)
-* My old [blog post](http://davetang.org/muse/2013/09/04/getting-started-with-git/) on Git when I was first learning about it
-
+* [A Quick Introduction to Version Control with Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004668)
+* [Ten Simple Rules for Taking Advantage of Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004947)
+* [Resources to learn Git](https://try.github.io/)
+* Karl Broman's [git/github guide](https://kbroman.org/github_tutorial/)
+* [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do) chapter 5 "Git for Scientists"
+* My [Git Wiki page](https://davetang.org/wiki2/index.php?title=Git)
+* My old [blog post](https://davetang.org/muse/2013/09/04/getting-started-with-git/)
