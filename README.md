@@ -1,13 +1,16 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Introduction](#introduction)
-   * [Getting started](#getting-started)
-   * [Branches](#branches)
-   * [Remotes](#remotes)
-   * [Useful commands](#useful-commands)
-   * [Undoing things](#undoing-things)
-   * [Submodules](#submodules)
+      * [Getting started](#getting-started)
+      * [Branches](#branches)
+      * [Remotes](#remotes)
+      * [Useful commands](#useful-commands)
+      * [Undoing things](#undoing-things)
+      * [Submodules](#submodules)
+   * [GitHub](#github)
+      * [GitHub Actions](#github-actions)
    * [Useful links](#useful-links)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
