@@ -12,7 +12,7 @@ Table of Contents
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
-## Introduction
+# Introduction
 
 [Git](https://git-scm.com/) is an open source distributed version control system. [GitHub](https://github.com/) is an online repository where you can store your projects that use Git for its version controlling. There are many advantages to using version control and it is not too difficult to start using Git and GitHub. Furthermore, GitHub isn't just for storing code! I use it a lot just to store my study notes, which I like to share just in case they are useful to others.
 
@@ -262,7 +262,61 @@ To update submodules.
 git submodule update --recursive --remote
 ```
 
-## Useful links
+# GitHub
+
+## GitHub Actions
+
+In [this guide](https://docs.github.com/en/actions/quickstart), you'll add a workflow that demonstrates some of the essential features of GitHub Actions.
+
+Firstly, create a new branch.
+
+```bash
+git checkout -b test_gh_actions
+```
+
+Create `.github/workflows`.
+
+```bash
+mkdir -p .github/workflows
+
+git branch
+  master
+* test_gh_actions
+```
+
+Create `.github/workflows/github-actions-demo.yml` and populate it with the following.
+
+```
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "This job's status is ${{ job.status }}."
+```
+
+Add, commit, push.
+
+```bash
+git add .github/workflows/github-actions-demo.yml
+git commit -m 'GitHub Actions yml file'
+git push origin test_gh_actions
+```
+
+Create a pull request for `test_gh_actions` on GitHub and merge after review.
+
+# Useful links
 
 * [A Quick Introduction to Version Control with Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004668)
 * [Ten Simple Rules for Taking Advantage of Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004947)
