@@ -269,7 +269,7 @@ git submodule update --recursive --remote
 
 ## GitHub Actions
 
-In [this guide](https://docs.github.com/en/actions/quickstart), you'll add a workflow that demonstrates some of the essential features of GitHub Actions.
+In [this guide](https://docs.github.com/en/actions/quickstart), you'll add a workflow that demonstrates some of the essential features of GitHub Actions. Read [Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions) for more information.
 
 Firstly, create a new branch.
 
@@ -325,6 +325,7 @@ Create a pull request for `test_gh_actions` on GitHub and merge after review.
 * [Ten Simple Rules for Taking Advantage of Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004947)
 * [Resources to learn Git](https://try.github.io/)
 * Karl Broman's [git/github guide](https://kbroman.org/github_tutorial/)
+* [GitHub Actions Cheat Sheet](https://resources.github.com/whitepapers/GitHub-Actions-Cheat-sheet/)
 * [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do) chapter 5 "Git for Scientists"
 * My [Git Wiki page](https://davetang.org/wiki2/index.php?title=Git)
 * My old [blog post](https://davetang.org/muse/2013/09/04/getting-started-with-git/)
