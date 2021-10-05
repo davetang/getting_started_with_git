@@ -1,7 +1,7 @@
-name: R test
+name: R Docker test
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  use-rocker-r-ver:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
