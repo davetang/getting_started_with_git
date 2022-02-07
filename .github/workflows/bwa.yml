@@ -45,25 +45,32 @@ jobs:
           wget --quiet https://github.com/lh3/bwa/archive/refs/tags/v0.7.17.tar.gz
           tar -xzf v0.7.17.tar.gz
           cd bwa-0.7.17 && make && mv bwa $GITHUB_WORKSPACE/tools/bin
-          #          cd ..
-          #          ver=1.14
-          #          dir=$GITHUB_WORKSPACE/tools
-          #          for tool in htslib bcftools samtools; do
-          #             url=https://github.com/samtools/${tool}/releases/download/${ver}/${tool}-${ver}.tar.bz2
-          #             wget --quiet ${url}
-          #             tar xjf ${tool}-${ver}.tar.bz2
-          #             cd ${tool}-${ver}
-          #             ./configure --prefix=${dir}
-          #             make && make install
-          #             cd ..
-          #          done
+                    cd ..
+                    ver=1.14
+                    dir=$GITHUB_WORKSPACE/tools
+                    for tool in htslib bcftools samtools; do
+                       url=https://github.com/samtools/${tool}/releases/download/${ver}/${tool}-${ver}.tar.bz2
+                       wget --quiet ${url}
+                       tar xjf ${tool}-${ver}.tar.bz2
+                       cd ${tool}-${ver}
+                       ./configure --prefix=${dir}
+                       make && make install
+                       cd ..
+                    done
 
       - name: BWA index
         run: cd raw && bwa index Homo_sapiens_assembly38.fasta
 
       - name: BWA MEM
         run: |
-          bwa mem -t 2 raw/Homo_sapiens_assembly38.fasta raw/ERR031940_1.filt.fastq.gz raw/ERR031940_2.filt.fastq.gz > result/ERR031940.sam
+          bwa mem \
+            -t 2 \
+            raw/Homo_sapiens_assembly38.fasta \
+            raw/ERR031940_1.filt.fastq.gz \
+            raw/ERR031940_2.filt.fastq.gz |\
+            samtools sort -@ 2 -O BAM |\
+            tee ERR031940.bam |\
+            samtools index - ERR031940.bam.bai
 
       - name: Job status
         run: echo "This job's status is ${{ job.status }}."
