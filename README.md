@@ -1,17 +1,18 @@
 Table of Contents
 =================
 
-   * [Table of Contents](#table-of-contents)
-   * [Introduction](#introduction)
-      * [Getting started](#getting-started)
-      * [Branches](#branches)
-      * [Remotes](#remotes)
-      * [Useful commands](#useful-commands)
-      * [Undoing things](#undoing-things)
-      * [Submodules](#submodules)
-   * [GitHub](#github)
-      * [GitHub Actions](#github-actions)
-   * [Useful links](#useful-links)
+* [Table of Contents](#table-of-contents)
+* [Introduction](#introduction)
+   * [Getting started](#getting-started)
+   * [Branches](#branches)
+      * [Renaming a branch](#renaming-a-branch)
+   * [Remotes](#remotes)
+   * [Useful commands](#useful-commands)
+   * [Undoing things](#undoing-things)
+   * [Submodules](#submodules)
+* [GitHub](#github)
+   * [GitHub Actions](#github-actions)
+* [Useful links](#useful-links)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -128,6 +129,35 @@ git branch
 ```
 
 You can read more about branching [here](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging).
+
+### Renaming a branch
+
+See [How To Rename Your Git Repositories From Master to Main](https://hackernoon.com/how-to-rename-your-git-repositories-from-master-to-main-6i1u3wsu).
+
+Step 1: Rename your local master branch
+
+```bash
+git branch -m master main
+```
+
+Step 2: Rename your remote master branch
+
+Note that it is not possible to "rename" a remote branch in Git. We will create a new "main" branch and delete the old "master" branch.
+
+```bash
+git checkout main
+git push origin main
+git push origin --delete master
+```
+
+The delete step will not work for GitHub until you change the default branch from "master" to "main".
+
+Step 3: Create new tracking connection
+
+```bash
+git fetch
+git branch -u origin/main
+```
 
 ## Remotes
 
