@@ -1,5 +1,9 @@
 name: R Docker test
-on: [push]
+on:
+  push:
+    paths:
+      - '.github/workflows/bwa.yml'
+
 jobs:
   use-rocker-r-ver:
     runs-on: ubuntu-latest

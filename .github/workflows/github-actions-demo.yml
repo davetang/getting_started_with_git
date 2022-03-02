@@ -1,5 +1,9 @@
 name: GitHub Actions Demo
-on: [push]
+on:
+  push:
+    paths:
+      - '.github/workflows/github-actions-demo.yml'
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
