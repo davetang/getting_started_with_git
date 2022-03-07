@@ -6,6 +6,7 @@ Table of Contents
    * [Getting started](#getting-started)
    * [Branches](#branches)
       * [Renaming a branch](#renaming-a-branch)
+      * [Default git init branch](#default-git-init-branch)
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
    * [Undoing things](#undoing-things)
@@ -157,6 +158,33 @@ Step 3: Create new tracking connection
 ```bash
 git fetch
 git branch -u origin/main
+```
+
+### Default git init branch
+
+Use `git config`.
+
+```bash
+git config --global init.defaultBranch main
+```
+
+Check changes.
+
+```bash
+git config --global --list | grep defaultbranch
+init.defaultbranch=main
+```
+
+The initial default branch is now `main`.
+
+```bash
+git init
+git status
+On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
 ```
 
 ## Remotes
