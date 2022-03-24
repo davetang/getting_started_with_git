@@ -8,6 +8,7 @@ Table of Contents
       * [Branching example](#branching-example)
       * [Renaming a branch](#renaming-a-branch)
       * [Default git init branch](#default-git-init-branch)
+      * [What is HEAD](#head)
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
    * [Undoing things](#undoing-things)
@@ -300,6 +301,29 @@ No commits yet
 
 nothing to commit (create/copy files and use "git add" to track)
 ```
+
+### HEAD
+
+HEAD can be [considered](https://stackoverflow.com/questions/2304087/what-is-head-in-git) as the "current branch" and you can check what HEAD points to by checking `.git/HEAD`.
+
+```bash
+cat .git/HEAD
+ref: refs/heads/main
+```
+
+When we switch branches, the HEAD revision changes to point to the tip of the new branch.
+
+```bash
+git checkout -b head_check
+Switched to a new branch 'head_check'
+
+cat .git/HEAD
+ref: refs/heads/head_check
+```
+
+HEAD can point to any commit and it does not need to be the last commit in any branch. When HEAD points to a commit that is not the last commit in a branch, it is a detached HEAD. [In addition](https://www.sbf5.com/~cduan/technical/git/git-1.shtml#heads):
+
+>A head is simply a reference to a commit object. Each head has a name (branch name or tag name, etc). By default, there is a head in every repository called master. A repository can contain any number of heads. At any given time, one head is selected as the "current head." This head is aliased to HEAD and is always in capitals. Note this difference: a "head" (lowercase) refers to any one of the named heads in the repository; "HEAD" (uppercase) refers exclusively to the currently active head. This distinction is used frequently in Git documentation.
 
 ## Remotes
 
