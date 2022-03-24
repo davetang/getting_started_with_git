@@ -5,6 +5,7 @@ Table of Contents
 * [Introduction](#introduction)
    * [Getting started](#getting-started)
    * [Branches](#branches)
+      * [Branching example](#branching-example)
       * [Renaming a branch](#renaming-a-branch)
       * [Default git init branch](#default-git-init-branch)
    * [Remotes](#remotes)
@@ -130,6 +131,119 @@ git branch
 ```
 
 You can read more about branching [here](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging).
+
+### Branching example
+
+We want to work on the script `now.sh` but we are afraid that we may make changes that cause the script to malfunction or not execute as intended. We can create a new branch to test our changes. Some [guidelines](https://github.com/agis/git-style-guide#branches) on naming branches include:
+
+1. Using short and descriptive names
+2. Use GitHub issue numbers
+3. Delete the branch after merging
+
+```bash
+#     -b <branch>           create and checkout a new branch
+git checkout -b now_add_echo
+Switched to a new branch 'now_add_echo'
+
+git branch
+  main
+* now_add_echo
+  test_gh_actions
+```
+
+Add new code.
+
+```bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+now(){
+   date '+%Y/%m/%d %H:%M:%S'
+}
+
+# seconds to sleep
+s=2
+
+>&2 printf "[ %s %s ] Start\n" $(now)
+>&2 echo Sleeping for ${s} seconds
+sleep ${s}
+>&2 printf "[ %s %s ] End\n" $(now)
+
+exit 0
+```
+
+Add and commit to `now_add_echo`.
+
+```bash
+git add now.sh
+git commit -m 'echo sleep time'
+```
+
+If we switch back to the `main` branch, we will see the original `now.sh` script.
+
+```bash
+git checkout main
+
+cat now.sh
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+now(){
+   date '+%Y/%m/%d %H:%M:%S'
+}
+
+>&2 printf "[ %s %s ] Start\n" $(now)
+sleep 2
+>&2 printf "[ %s %s ] End\n" $(now)
+
+exit 0
+```
+
+Once we are happy with the modified `now.sh` script, we can merge `now_add_echo` to `main`.
+
+```bash
+git checkout main
+git merge now_add_echo
+Updating eac414a..9c3f973
+Fast-forward
+ now.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+# changes made in `now_add_echo` can be seen in `main`
+cat now.sh
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+now(){
+   date '+%Y/%m/%d %H:%M:%S'
+}
+
+# seconds to sleep
+s=2
+
+>&2 printf "[ %s %s ] Start\n" $(now)
+>&2 echo Sleeping for ${s} seconds
+sleep ${s}
+>&2 printf "[ %s %s ] End\n" $(now)
+
+exit 0
+```
+
+Finally we will delete the `now_add_echo` branch.
+
+```bash
+git branch -d now_add_echo
+Deleted branch now_add_echo (was 9c3f973).
+
+git branch
+* main
+  test_gh_actions
+```
+
+For more information, see [Git Branching - Basic Branching and Merging](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging).
 
 ### Renaming a branch
 
