@@ -189,14 +189,34 @@ nothing to commit (create/copy files and use "git add" to track)
 
 ## Remotes
 
-[Remote repositories](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) are versions of your project that are hosted on the Internet or network somewhere. In the push command in the getting started section, we used GitHub as oure remote repository. You can have more than one remote repository that you can read and write to.
+[Remote repositories](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) are versions of your project that are hosted on the Internet or network somewhere. In the push command in the getting started section, we used GitHub as our remote repository. You can have more than one remote repository that you can read and write to. For this repository there is one remote at GitHub that I can read and write to:
 
 ```bash
-# for this repository there is one remote at GitHub that I can read and write to
 git remote -v
 origin  https://github.com/davetang/getting_started_with_git.git (fetch)
 origin  https://github.com/davetang/getting_started_with_git.git (push)
 ```
+
+When we create a new repository on GitHub, we get the following instructions:
+
+```bash
+echo "# name_of_repo" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:davetang/name_of_repo.git
+git push -u origin main
+```
+
+The `git remote add origin` sets the upstream name to `origin`, which is an alias to the remote repository connected to our local repository. The `git push -u origin main` pushes our local `main` branch to our remote repository; the `-u` is short for `--set-upstream`. This creates a tracking branch, which are local branches that have a direct relationship to a remote branch. Once this has been set up, you can simply type `git push` or `git pull` and Git automatically knows which server and branch to push to and pull from. The syntax for a tracking branch is `remotename/branch`.
+
+When we [renamed a branch](#renaming-a-branch) from `master` to `main`, we had to create a new tracking connection for the newly renamed branch.
+
+```bash
+git branch -u origin/main
+```
+Note the same `-u` parameter and the tracking branch syntax used with `git branch`.
 
 ## Useful commands
 
@@ -379,6 +399,7 @@ Create a pull request for `test_gh_actions` on GitHub and merge after review.
 
 # Useful links
 
+* [Pro Git book](https://git-scm.com/book/en/v2)
 * [A Quick Introduction to Version Control with Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004668)
 * [Ten Simple Rules for Taking Advantage of Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004947)
 * [Resources to learn Git](https://try.github.io/)
