@@ -12,6 +12,7 @@ Table of Contents
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
    * [Undoing things](#undoing-things)
+      * [Git revert](#git-revert)
    * [Submodules](#submodules)
 * [GitHub](#github)
    * [GitHub Actions](#github-actions)
@@ -455,14 +456,41 @@ ls
 # hello.txt
 ```
 
+### Git revert
+
 Revert a commit.
 
 ```bash
-# removes the commit for hello.txt
-git revert 5fc21f9beef4cfb3a9d834e843b3a5848e6fe05d
+echo bad > bad.txt
+git add bad.txt
+git commit -m 'Add bad.txt'
 
-# reverts the revert, restoring helo.txt
-git revert 003422db0129c4e68a8dd7d86652c6b4b40f0038
+git log --oneline | head -5
+dfaccc3 Add bad.txt
+37e3241 Note about HEAD
+60c4eb6 Branching example
+9c3f973 echo sleep time
+eac414a Merge branch 'main' of github.com:davetang/getting_started_with_git into main
+```
+
+We can use [HEAD](#head) to refer to the latest commit and revert this.
+
+```bash
+git revert HEAD
+
+git log --oneline | head -5
+1e3d615 Revert "Add bad.txt"
+dfaccc3 Add bad.txt
+37e3241 Note about HEAD
+60c4eb6 Branching example
+9c3f973 echo sleep time
+```
+
+`bad.txt` no longer exists.
+
+```bash
+ls bad.txt
+ls: cannot access bad.txt: No such file or directory
 ```
 
 ## Submodules
