@@ -12,6 +12,7 @@ Table of Contents
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
    * [Undoing things](#undoing-things)
+      * [Git clean](#git-clean)
       * [Git revert](#git-revert)
    * [Submodules](#submodules)
 * [GitHub](#github)
@@ -392,68 +393,100 @@ git config --global user.email "davetingpongtang@gmail.com"
 
 ## Undoing things
 
-Git makes it easy to recover a file if you accidentally deleted it or get rid of changes that you just made.
+Git makes it easy to recover a file if you accidentally deleted it or get rid of changes that you just made with `git restore`; see [Unmodifying a modified file](https://git-scm.com/book/en/Git-Basics-Undoing-Things) for more information.
 
-[Unmodifying a modified file](https://git-scm.com/book/en/Git-Basics-Undoing-Things)
+Recover an accidentally deleted file.
 
 ```bash
-ls
-# hello.txt
+rm now.sh
 
 git status
-# On branch master
-# nothing to commit, working directory clean
-
-# make change to file
-echo bye >> hello.txt
-git status
-# On branch master
-# Changes not staged for commit:
-#   (use "git add <file>..." to update what will be committed)
-#   (use "git checkout -- <file>..." to discard changes in working directory)
+# On branch main
+# Your branch is up to date with 'origin/main'.
 # 
-#         modified:   hello.txt
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git restore <file>..." to discard changes in working directory)
+#         deleted:    now.sh
 # 
 # no changes added to commit (use "git add" and/or "git commit -a")
 
-# get rid of change
-git checkout -- hello.txt
-git status
-# On branch master
-# nothing to commit, working directory clean
+git restore now.sh
 ```
 
-Throwing out all changes.
+Removing changes with the same command.
+
+```bash
+echo blah >> now.sh
+
+git status
+# On branch main
+# Your branch is up to date with 'origin/main'.
+# 
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git restore <file>..." to discard changes in working directory)
+#         modified:   now.sh
+# 
+# no changes added to commit (use "git add" and/or "git commit -a")
+
+git restore now.sh
+```
+
+Use `checkout` with the `-f` option to throw away all local modifications.
 
 ```bash
 git checkout -f
-# or
+```
+
+Use `reset --hard` to reset HEAD, index and working tree.
+
+```bash
 git reset --hard
 ```
 
-[Removing untracked files](https://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-working-tree)
+### Git clean
+
+Use `clean` to [remove untracked files](https://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-working-tree).
+
+Create an untracked file.
 
 ```bash
-# create new untracked file
-echo bye > bye.txt
-
-ls
-# bye.txt         hello.txt
+touch test.txt
 
 git status
-# On branch master
+# On branch main
+# Your branch is up to date with 'origin/main'.
+# 
 # Untracked files:
 #   (use "git add <file>..." to include in what will be committed)
-# 
-#         bye.txt
+#         test.txt
 # 
 # nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Use `--dry-run` first to see what would be deleted.
+
+```bash
+git clean --dry-run
+# Would remove test.txt
+```
+
+Remove untracked files.
+
+```bash
+git clean -f
+# Removing test.txt
+```
+
+Remove untracked directories.
+
+```bash
+mkdir blah
+touch blah/test.txt
 
 git clean -fd
-# Removing bye.txt
-
-ls
-# hello.txt
+# Removing blah/
 ```
 
 ### Git revert
