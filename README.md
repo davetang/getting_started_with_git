@@ -4,6 +4,7 @@ Table of Contents
 * [Table of Contents](#table-of-contents)
 * [Introduction](#introduction)
    * [Getting started](#getting-started)
+   * [Change HTTPS to SSH](#change-https-to-ssh)
    * [Branches](#branches)
       * [Branching example](#branching-example)
       * [Renaming a branch](#renaming-a-branch)
@@ -117,6 +118,43 @@ git remote add origin https://github.com/davetang/blah.git
 
 # we are pushing the "master" branch of our local repository to remote
 git push -u origin master
+```
+
+## Change HTTPS to SSH
+
+For repositories that used HTTPS, change `url` under `[remote "origin"]` in your `.git/config` file from
+
+    url = https://github.com/davetang/learning_docker.git
+
+to
+
+    url = git@github.com:davetang/learning_docker.git
+
+Basically, substitute `https://` to `git@` and `github.com/` to `github.com:`.
+
+Next add your SSH key.
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/your_key
+
+# test your key
+ssh -T git@github.com
+```
+
+You can add the following to `~/.ssh/config` to avoid running the steps above.
+
+```
+Host github.com
+ HostName github.com
+ User git
+ IdentityFile ~/.ssh/your_key
+```
+
+Use the same SSH command to check if everything is working.
+
+```bash
+ssh -T git@github.com
 ```
 
 ## Branches
