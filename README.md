@@ -12,6 +12,7 @@ Table of Contents
       * [What is HEAD](#head)
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
+      * [Show history of a file](#show-history-of-a-file)
    * [Undoing things](#undoing-things)
       * [Git clean](#git-clean)
       * [Git revert](#git-revert)
@@ -428,6 +429,16 @@ git config -l
 git config --global user.name "Dave Tang"
 git config --global user.email "davetingpongtang@gmail.com"
 ```
+
+### Show history of a file
+
+This is useful for example when the latest version of a file has removed some code/text that you would like to restore.
+
+```bash
+git log -p -- my_file
+```
+
+The `-p` parameter is used to [show the difference](https://stackoverflow.com/questions/1964142/how-can-i-list-all-the-different-versions-of-a-file-and-diff-them-also) between each revision and its parent. The [double dash](https://unix.stackexchange.com/questions/11376/what-does-double-dash-mean) `--` is used in commands to signify the end of command options and anything after is/are treated as positional arguments. In the example above, the only option we want is `-p` and the `--` indicates that the next item is the `<path>` to the file.
 
 ## Undoing things
 
