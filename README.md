@@ -9,7 +9,7 @@ Table of Contents
       * [Branching example](#branching-example)
       * [Renaming a branch](#renaming-a-branch)
       * [Default git init branch](#default-git-init-branch)
-      * [What is HEAD](#head)
+      * [HEAD](#head)
    * [Remotes](#remotes)
    * [Useful commands](#useful-commands)
       * [Show history of a file](#show-history-of-a-file)
@@ -19,7 +19,9 @@ Table of Contents
    * [Submodules](#submodules)
 * [GitHub](#github)
    * [GitHub Actions](#github-actions)
+      * [Safe directory](#safe-directory)
 * [Useful links](#useful-links)
+* [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -645,6 +647,22 @@ git push origin test_gh_actions
 
 Create a pull request for `test_gh_actions` on GitHub and merge after review.
 
+### Safe directory
+
+The [CVE-2022-24765 vulnerability](https://github.blog/2022-04-12-git-security-vulnerability-announced/), which allows someone else to override your git config, now causes the [following error](https://github.com/actions/checkout/issues/760):
+
+```
+fatal: unsafe repository ('/__w/repo/repo' is owned by someone else)
+To add an exception for this directory, call:
+
+  git config --global --add safe.directory /__w/repo/repo
+  Error: Process completed with exit code 128.
+```
+
+The latest version of Git now checks whether a repository is owned by you and if not, you will get the error above. This is a problem when using Docker with GitHub Actions, since your user id will be different (inside Docker, your `uid` is `0(root)`). Currently, the easiest way around this is to run the `git config` step as suggested by the error, where `repo` is the name of your GitHub repository.
+
+Another way around this is to change your container `uid` to match the `actions-runner-controller`, which is [apparently 1000](https://github.com/actions/checkout/issues/760#issuecomment-1097797031).
+
 # Useful links
 
 * [Pro Git book](https://git-scm.com/book/en/v2)
@@ -656,3 +674,4 @@ Create a pull request for `test_gh_actions` on GitHub and merge after review.
 * [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do) chapter 5 "Git for Scientists"
 * My [Git Wiki page](https://davetang.org/wiki2/index.php?title=Git)
 * My old [blog post](https://davetang.org/muse/2013/09/04/getting-started-with-git/)
+
