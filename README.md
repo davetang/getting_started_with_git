@@ -21,7 +21,6 @@ Table of Contents
    * [GitHub Actions](#github-actions)
       * [Safe directory](#safe-directory)
 * [Useful links](#useful-links)
-* [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -665,6 +664,7 @@ Another way around this is to change your container `uid` to match the `actions-
 
 # Useful links
 
+* [Version Control with Git](https://swcarpentry.github.io/git-novice/) by Software Carpentry Foundation
 * [Pro Git book](https://git-scm.com/book/en/v2)
 * [A Quick Introduction to Version Control with Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004668)
 * [Ten Simple Rules for Taking Advantage of Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004947)
