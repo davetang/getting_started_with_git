@@ -441,11 +441,27 @@ git log -p -- my_file
 
 The `-p` parameter is used to [show the difference](https://stackoverflow.com/questions/1964142/how-can-i-list-all-the-different-versions-of-a-file-and-diff-them-also) between each revision and its parent. The [double dash](https://unix.stackexchange.com/questions/11376/what-does-double-dash-mean) `--` is used in commands to signify the end of command options and anything after is/are treated as positional arguments. In the example above, the only option we want is `-p` and the `--` indicates that the next item is the `<path>` to the file.
 
+### List all tracked files
+
+List all files currently tracked under the `main` branch.
+
+```bash
+git ls-tree -r main
+```
+
+### List all files that were tracked
+
+List all files that are and were tracked.
+
+```bash
+git log --pretty=format: --name-only --diff-filter=A
+```
+
 ## Undoing things
 
 Git makes it easy to recover a file if you accidentally deleted it or get rid of changes that you just made with `git restore`; see [Unmodifying a modified file](https://git-scm.com/book/en/Git-Basics-Undoing-Things) for more information.
 
-Recover an accidentally deleted file.
+Recover an accidentally deleted file (that has not been committed).
 
 ```bash
 rm now.sh
