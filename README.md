@@ -19,6 +19,7 @@ Table of Contents
    * [Submodules](#submodules)
 * [GitHub](#github)
    * [GitHub Actions](#github-actions)
+      * [Encrypted secrets](#encrypted-secrets)
       * [Safe directory](#safe-directory)
 * [Useful links](#useful-links)
 
@@ -661,6 +662,32 @@ git push origin test_gh_actions
 ```
 
 Create a pull request for `test_gh_actions` on GitHub and merge after review.
+
+### Encrypted secrets
+
+[Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) are encrypted environment variables that are created in an organisation, repository, or repository environment. The secrets are available to use in GitHub Actions workflows and uses a [libsodium sealed box](https://libsodium.gitbook.io/doc/public-key_cryptography/sealed_boxes) to ensure that secrets are encrypted before they reach GitHub and remain encrypted until you use them in a workflow.
+
+Secret names can only contain alphanumeric characters, must not start with the `GITHUB_` prefix or numbers, are **not** case-sensitive, and must be unique at the level they are created at.
+
+To make a secret available to an action, you must set the secret as an input or environment variable in the workflow file. To create a secret, go to your repository then `Settings` -> `Secrets` -> `Actions` and click on `New repository secret`. Then enter the `Name` of your secret, for example, `MAIL_PASSWORD` or `MAIL_USERNAME`, and then the `Value` you want associated with the secret key. You can then use these secrets in your workflow:
+
+```
+      - name: Send email
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+```
+
+If you try to print the secret out like so:
+
+```
+      - name: Check secret
+        env:
+          TOP_SECRET: ${{ secrets.TOP_SECRET }}
+        run: echo ${TOP_SECRET}
+```
+
+You will see [hunter2](http://bash.org/?244321).
 
 ### Safe directory
 
