@@ -597,6 +597,20 @@ ls: cannot access bad.txt: No such file or directory
 
 [Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
 
+To include another repo as a submodule; a new `.gitmodules` configuration file will be generated.
+
+```bash
+git submodule add URL
+
+cat .gitmodules
+```
+
+When cloning a repo with submodules, you can use `--recurse-submodules` with `git clone` and each submodule will automatically initialise and update.
+
+```bash
+git clone --recurse-submodules URL
+```
+
 To pull all submodules for a repository with submodules.
 
 ```bash
