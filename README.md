@@ -620,6 +620,14 @@ When cloning a repo with submodules, you can use `--recurse-submodules` with `gi
 git clone --recurse-submodules URL
 ```
 
+Or run these three commands to initialise and update each submodule.
+
+```bash
+git clone URL
+git submodule init
+git submodule update
+```
+
 To pull all submodules for a repository with submodules.
 
 ```bash
