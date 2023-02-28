@@ -558,7 +558,13 @@ git clean -fd
 
 ### Git revert
 
-Revert a commit.
+[Git
+revert](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting)
+is an operation that takes a specified commit and creates a new commit which
+inverses the specified commit. `git revert` can only be run at a commit level
+scope and has no file level functionality.
+
+Let's create a commit that we will revert.
 
 ```bash
 echo bad > bad.txt
@@ -573,7 +579,9 @@ dfaccc3 Add bad.txt
 eac414a Merge branch 'main' of github.com:davetang/getting_started_with_git into main
 ```
 
-We can use [HEAD](#head) to refer to the latest commit and revert this.
+We can use [HEAD](#head) to refer to the latest commit and revert this. Note
+that the "bad" commit still exists in the commit history, we simply created a
+new commit that reverted the last commit.
 
 ```bash
 git revert HEAD
@@ -586,7 +594,8 @@ dfaccc3 Add bad.txt
 9c3f973 echo sleep time
 ```
 
-`bad.txt` no longer exists.
+`bad.txt` no longer exists in the working directory but we could recover in the
+future if we wanted.
 
 ```bash
 ls bad.txt
