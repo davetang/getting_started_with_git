@@ -5,6 +5,7 @@ Table of Contents
 * [Introduction](#introduction)
    * [Getting started](#getting-started)
    * [The Three Trees](#the-three-trees)
+   * [Git checkout](#git-checkout)
    * [Change HTTPS to SSH](#change-https-to-ssh)
    * [Branches](#branches)
       * [Branching example](#branching-example)
@@ -145,6 +146,13 @@ object that points to that snapshot, and updates the branch to point to that
 commit.
 
 The Three Trees are useful for understanding [git reset](#git-reset).
+
+## Git checkout
+
+A checkout is an operation that moves the [HEAD](#head) ref pointer to a
+specified commit. The `git checkout` command can be used in a commit or file
+level scope. A file level checkout will change the file's contents to those of
+the specified commit.
 
 ## Change HTTPS to SSH
 
@@ -532,13 +540,53 @@ git checkout -f
 ### Git reset
 
 Notes from [Git Tools - Reset
-Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified).
+Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified) and
+[Resetting, Checking Out and
+Reverting](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting).
 
-Use `reset --hard` to reset HEAD, index and working tree.
+A reset is an operation that takes a specified commit and resets [The Three
+Trees](#the-three-trees) to match the state of the repository at that specified
+commit. A reset can be invoked in three different modes, which correspond to
+the three trees.
+
+[Checkout](#git-checkout) and reset are generally used for making local or
+private changes. They modify the history of a repository that can cause
+conflicts when pushing to remote. [Revert](#git-revert) is considered a safe
+operation for "public undos" as it creates new history that can be shared
+remotely and does not overwrite history that remote users may be dependent on.
+`git reset` is a simple way to undo changes that haven't been shared with
+anyone else.
+
+Parameters used with `git reset` determine its scope; when a file path is not
+used, reset operates on whole commits.
+
+To move backwards two commits on the `hotfix` branch, i.e. throw away the last
+two commits.
+
+```bash
+git checkout hotfix git reset HEAD~2
+```
+
+The two commits that were on the end of `hotfix` are orphaned commits and will
+be deleted next time Git performs a garbage collection.
+
+`git reset` can alter the staged snapshot (Index in the three trees) and/or the
+working directory when used with one of the following flags:
+
+* `--soft` - the staged snapshot and working directory are not altered in any way.
+* `--mixed` - the staged snapshot is updated to match the specified commit, but
+the working directory is not affected. This is the default.
+* `--hard` - the staged snapshot and the working directory are both updated to
+match the specified commit.
+
+Use `reset --hard` to reset HEAD, index and working directory.
 
 ```bash
 git reset --hard
 ```
+
+When `git reset` is used with a file path, the staged snapshot is updated to
+match the version from the specified commit.
 
 ### Git clean
 
