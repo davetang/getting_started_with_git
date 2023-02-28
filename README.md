@@ -4,6 +4,7 @@ Table of Contents
 * [Table of Contents](#table-of-contents)
 * [Introduction](#introduction)
    * [Getting started](#getting-started)
+   * [The Three Trees](#the-three-trees)
    * [Change HTTPS to SSH](#change-https-to-ssh)
    * [Branches](#branches)
       * [Branching example](#branching-example)
@@ -14,6 +15,7 @@ Table of Contents
    * [Useful commands](#useful-commands)
       * [Show history of a file](#show-history-of-a-file)
    * [Undoing things](#undoing-things)
+      * [Git reset](#git-reset)
       * [Git clean](#git-clean)
       * [Git revert](#git-revert)
    * [Submodules](#submodules)
@@ -122,6 +124,27 @@ git remote add origin https://github.com/davetang/blah.git
 # we are pushing the "master" branch of our local repository to remote
 git push -u origin master
 ```
+
+## The Three Trees
+
+A nice illustration of the The Three Trees is provided in the [Git Tools -
+Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
+article, which is what the following notes are based on.
+
+Git can be thought of as a content manager of three different trees, where in
+this context, tree means a collection of files and not the tree data structure.
+These three trees are related to the three basic Git workflow described above,
+and illustrate how snapshots are recorded in successively better states.
+
+![reset_workflow](img/reset-workflow.png)
+
+The Working Directory contains the files that you edit and work with. When `git
+add` is run, the files are staged and added to the Index. `git commit` takes
+the contents of the Index, saves it as a permanent snapshot, creates a commit
+object that points to that snapshot, and updates the branch to point to that
+commit.
+
+The Three Trees are useful for understanding [git reset](#git-reset).
 
 ## Change HTTPS to SSH
 
@@ -505,6 +528,11 @@ Use `checkout` with the `-f` option to throw away all local modifications.
 ```bash
 git checkout -f
 ```
+
+### Git reset
+
+Notes from [Git Tools - Reset
+Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified).
 
 Use `reset --hard` to reset HEAD, index and working tree.
 
