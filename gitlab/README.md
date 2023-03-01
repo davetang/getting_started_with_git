@@ -1,24 +1,25 @@
 Table of Contents
 =================
 
-   * [README](#readme)
-      * [Installation](#installation)
-      * [Upgrading](#upgrading)
-      * [Configuration](#configuration)
-         * [GitLab Git LFS](#gitlab-git-lfs)
+   * [Installation](#installation)
+   * [Upgrading](#upgrading)
+   * [Configuration](#configuration)
+      * [GitLab Git LFS](#gitlab-git-lfs)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
-## README
+[GitLab](https://about.gitlab.com/) is a software development and IT operations
+(DevOps) platform that provides various features including a Git repository
+manager and continuous integration and deployment (CI/CD) pipeline. 
 
-Notes for a self-managed GitLab instance.
+This directory contains notes for a self-managed GitLab instance. 
 
-### Installation
+## Installation
 
 [Install](https://about.gitlab.com/install/) on various operating
 systems/environments.
 
-### Upgrading
+## Upgrading
 
 [Upgrading](https://docs.gitlab.com/ee/update/package/) needs to be performed
 step by step following an upgrade path. Use the [upgrade
@@ -32,9 +33,17 @@ sudo gitlab-rails runner -e production 'puts Gitlab::BackgroundMigration.remaini
 sudo gitlab-rails runner -e production 'puts Gitlab::Database::BackgroundMigration::BatchedMigration.queued.count'
 ```
 
-### Configuration
+## Configuration
 
-Configuration is via `/etc/gitlab/gitlab.rb`.
+All
+[configurations](https://docs.gitlab.com/omnibus/settings/configuration.html)
+are set in a single configuration file located at
+
+    /etc/gitlab/gitlab.rb
+
+After modifying `/etc/gitlab/gitlab.rb`, run the following:
+
+    sudo gitlab-ctl reconfigure
 
 If you have set up the hostname of your server in `/etc/hosts`, you can use it
 in the config file:
@@ -48,7 +57,7 @@ On Windows the Hosts file is in:
 
 but you need to be admin to edit the file.
 
-#### GitLab Git LFS
+### GitLab Git LFS
 
 See [LFS
 administration](https://docs.gitlab.com/ee/administration/lfs/index.html).
