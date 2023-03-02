@@ -15,6 +15,10 @@ GitLab Runner:
 2. By downloading a binary manually
 3. By using a repository for rpm/deb packages
 
+Since GitLab Runner is a single executable (written in Go) with statically
+linked libraries, it is easy to setup via manually downloading the binary. But
+you may opt to use a package manager like `apt` or `yum`.
+
 ### Downloading a binary manually
 
 Setting up a GitLab Runner by downloading a binary requires admin privileges.
@@ -49,13 +53,17 @@ runner](https://docs.gitlab.com/runner/register/index.html#linux).
 sudo /usr/local/bin/gitlab-runner register
 ```
 
-Updating `gitlab-runner`.
+Updating `gitlab-runner` to the latest version.
 
 ```bash
-sudo gitlab-runner stop
+sudo /usr/local/bin/gitlab-runner stop
 sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"
 sudo chmod +x /usr/local/bin/gitlab-runner
-sudo gitlab-runner start
+sudo /usr/local/bin/gitlab-runner start
+
+sudo /usr/local/bin/gitlab-runner status
+# Runtime platform                                    arch=amd64 os=linux pid=378904 revision=d540b510 version=15.9.1
+# gitlab-runner: Service is running
 ```
 
 ### In a container
