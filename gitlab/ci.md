@@ -1,6 +1,6 @@
 # Getting started with GitLab CI/CD
 
-This [quick start guide](https://docs.gitlab.com/ee/ci/quick_start/) provides a
+The [quick start guide](https://docs.gitlab.com/ee/ci/quick_start/) provides a
 nice overview on [GitLab CI/CD](https://docs.gitlab.com/ee/ci/).
 
 The `.gitlab-ci.yml` file is a YAML file where you configure specific
@@ -24,7 +24,7 @@ Pipelines comprise:
 A typical pipeline might consist of four stages, executed in the following order:
 
 * A build stage, with a job called compile.
-* A test stage, with two jobs called test1 and test2.
+* A test stage, with two jobs called `test1` and `test2`.
 * A staging stage, with a job called deploy-to-stage.
 * A production stage, with a job called deploy-to-prod.
 
@@ -60,6 +60,77 @@ test_only:
     changes:
       - README.md
 ```
+
+## Example
+
+[Bash.gitlab-ci.yml](https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Bash.gitlab-ci.yml).
+
+```yml
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+#
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Bash.gitlab-ci.yml
+
+# See https://docs.gitlab.com/ee/ci/yaml/index.html for all available options
+
+# you can delete this line if you're not using Docker
+image: busybox:latest
+
+before_script:
+  - echo "Before script section"
+  - echo "For example you might run an update here or install a build dependency"
+  - echo "Or perhaps you might print out some debugging details"
+
+after_script:
+  - echo "After script section"
+  - echo "For example you might do some cleanup here"
+
+build1:
+  stage: build
+  script:
+    - echo "Do your build here"
+
+test1:
+  stage: test
+  script:
+    - echo "Do a test here"
+    - echo "For example run a test suite"
+
+test2:
+  stage: test
+  script:
+    - echo "Do another parallel test here"
+    - echo "For example run a lint test"
+
+deploy1:
+  stage: deploy
+  script:
+    - echo "Do your deploy here"
+  environment: production
+```
+
+See the [keyword reference
+guide](https://docs.gitlab.com/ee/ci/yaml/index.html) for the full list of
+configuration options for `.gitlab-ci.yml`.
+
+Below are the keywords used in the example above.
+
+* `image` - Use Docker images.
+* `before_script` - Override a set of commands that are executed before job.
+* `after_script` - Override a set of commands that are executed after job.
+* `stage` - Defines a job stage. If stages is not defined in `.gitlab-ci.yml`,
+the default pipeline stages are:
+    * `.pre`
+    * `build`
+    * `test`
+    * `deploy`
+    * `.post`
+* `script` - Shell script that is executed by a runner.
+* `environment` - Name of an environment to which the job deploys. Common
+environment names are `qa`, `staging`, and `production`, but you can use any name.
 
 # References
 
