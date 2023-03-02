@@ -132,6 +132,25 @@ the default pipeline stages are:
 * `environment` - Name of an environment to which the job deploys. Common
 environment names are `qa`, `staging`, and `production`, but you can use any name.
 
+There are four jobs: `build1`, `test1`, `test2`, and `deploy1`. Each job
+belongs to a stage (`build`, `test`, and `deploy`) and contains a script
+section . The `stage` describes the sequential execution of jobs. If there are
+runners available, jobs in a single stage run in parallel. Use the [needs
+keyword](https://docs.gitlab.com/ee/ci/yaml/index.html#needs) to run jobs out
+of stage order.
+
+Additional configurations can be made to customise how your jobs and stages
+perform:
+
+* Use the [rules keyword](https://docs.gitlab.com/ee/ci/yaml/index.html#rules)
+  to specify when to run or skip jobs.
+* Keep information across jobs and stages persistent in a pipeline with
+  [cache](https://docs.gitlab.com/ee/ci/yaml/index.html#cache) and
+  [artifacts](https://docs.gitlab.com/ee/ci/yaml/index.html#artifacts).
+* Use the [default
+  keyword](https://docs.gitlab.com/ee/ci/yaml/index.html#default) to specify
+  additional configurations that are applied to all jobs.
+
 # References
 
 * [GitLab CI/CD Examples](https://docs.gitlab.com/ee/ci/examples/) including
