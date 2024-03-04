@@ -403,10 +403,18 @@ HEAD can point to any commit and it does not need to be the last commit in any b
 
 [Remote repositories](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes) are versions of your project that are hosted on the Internet or network somewhere. In the push command in the getting started section, we used GitHub as our remote repository. You can have more than one remote repository that you can read and write to. For this repository there is one remote at GitHub that I can read and write to:
 
-```bash
+```console
 git remote -v
-origin  https://github.com/davetang/getting_started_with_git.git (fetch)
-origin  https://github.com/davetang/getting_started_with_git.git (push)
+```
+```
+origin	git@github.com:davetang/getting_started_with_git.git (fetch)
+origin	git@github.com:davetang/getting_started_with_git.git (push)
+```
+
+If you change your username on the code repository, you need to update the remote URL locally with `git remote set-url`.
+
+```console
+git remote set-url origin git@github.com:newusername/getting_started_with_git.git
 ```
 
 When we create a new repository on GitHub, we get the following instructions:
