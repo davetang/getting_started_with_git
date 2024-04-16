@@ -93,6 +93,27 @@ sleep ${s}
 exit 0
 ```
 
-Storing files by their hash makes Git efficient: if you change one file, Git
-only needs to save one new blob to store the snapshot.
+* Storing files by their hash makes Git efficient: if you change one file, Git
+  only needs to save one new blob to store the snapshot.
 
+* While commits are usually saved forever but Git's garbage collection
+  periodically deletes _unreachable commits_.
+
+* Some ways commits get "lost" include:
+    * `git commit --amend`
+    * `git rebase`
+    * deleting a branch that has not been merged
+
+* Sometimes a commit isn't in the history of any branch or tag but is in the
+  reflog.
+
+* Sometimes a commit isn't referenced anywhere and you need to search all
+  commits to find it.
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
