@@ -104,16 +104,52 @@ exit 0
     * `git rebase`
     * deleting a branch that has not been merged
 
-* Sometimes a commit isn't in the history of any branch or tag but is in the
-  reflog.
+* Sometimes a commit isn't in the history of any branch or tag but you can find
+  them with `git reflog`
 
 * Sometimes a commit isn't referenced anywhere and you need to search all
   commits to find it.
 
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+* A commit can get lost using `git commit --amend`, `git rebase`, and `git
+  branch -D feature` (deleting an unmerged branch).
+
+* In Git, moving a file is the same as deleting the old one and adding the new
+  one.
+
+```console
+git mv old.sh new.sh
+
+git rm old.sh
+git add new.sh
 ```
+
+* diff is an algorithm that:
+
+1. takes two versions of code,
+2. compares them, and
+3. tries to make a human readable summary (but it doesn't always work well)
+
+* Git has many diff algorithms and the histogram method does a better job if
+you rearrange your code. You can use change it to histogram using `git config`.
+
+```console
+git config --global diff.algorithm histogram
+```
+
+* Git has a two-stage commit process:
+    * Stage untracked files and unstaged changes using `git add`, `git rm`,
+      `git mv`, etc.
+    * Commit using `git commit`
+
+* Git uses three terms interchangeably for the staging area (but they are all
+  the same thing):
+    * Staged (`--staged`)
+    * Cache (`--cached`)
+    * Index (`--keep-index`)
+
+* You can use `git add -p` to only commit certain parts of a file.
+
+* `git diff` only shows unstaged changes; if you want to see all changes that
+have not been committed, use `git diff HEAD`.
+
+* `git commit -a` does not automatically add new files.
