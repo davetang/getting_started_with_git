@@ -246,3 +246,50 @@ git log | head -1
 ```
 commit c9c959ba5d1a30bb6c87fab29854524867f34259
 ```
+
+* Many Git accidents are caused by running a command while on the wrong branch.
+
+* Try to keep track of two things:
+
+1. Check whether you're on a branch or a detached HEAD state
+2. Check whether you're in the middle of a multistep operation (`rebase`,
+   `merge`, `bisect`, etc.)
+
+* Use a prompt that keeps track of the current branch like
+  [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh/).
+
+* `.git/HEAD` is used by Git to store either:
+
+1. A branch name: the current branch
+2. A commit ID, which means that you do not have a current branch; this is
+   called a "detached HEAD state".
+
+```console
+cat .git/HEAD
+```
+```
+ref: refs/heads/main
+```
+
+By itself, `.git/HEAD` being a commit ID is fine; it's a good way to look at
+old versions of code and Git does it internally during a rebase. The only
+problem is that new commits may get lost since it won't be on any branch.
+
+You can end up in a detached HEAD state if you checkout:
+
+1. A tag - `git checkout v0.1.0`
+2. A remote-tracking branch - `git checkout origin/main`
+3. A commit ID - `git checkout hash`
+
+If you accidentally create commits in the detached HEAD state, you can avoid
+losing them by creating a new branch:
+
+```console
+`git switch -c oops`
+```
+
+You can always use HEAD to get the latest commit on the current branch; if you
+run `git show HEAD`, it will always show you the current commit, whether or not
+you're in the detached HEAD state.
+
+
