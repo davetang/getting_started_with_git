@@ -325,4 +325,44 @@ algorithm is:
 2. Find every commit in the history of any of those commits
 3. Delete every commit that was not found
 
+Here's an overview of stuff inside the `.git` folder:
 
+* `HEAD` is a tiny file (`.git/HEAD`) that just contains the name of your
+  current branch; it can also contain a commit ID, that's called "detached HEAD
+  state".
+
+* A branch is stored as a tiny file (`.git/refs/heads/main`) that just contains
+  one commit ID; tags are in `refs/tags` and the stash is in `refs/stash`.
+
+* A commit is a small file (`.git/objects/10/hash`) containing its parent/s,
+  message, tree, and author. These files are compressed and in binary but can
+  be viewed using `git cat-file -p hash`. (Merges are commits with two or more
+  parents.)
+
+* Trees are small files with directory listings (like a regular directory). The
+  files in it are called blobs and are the files that contain your code/text.
+  Storing a new blob with every change can take up a lot of space, so `git gc`
+  periodically packs them for efficient storage in `.git/objects/pack`.
+
+* The reflog stores the history of every branch, tag, and HEAD. Each line of
+  the reflog has:
+
+1. Before/after commit IDs
+2. User
+3. Timestamp
+4. Log message
+
+* Remote-tracking branches (`.git/refs/remotes/origin/main`) store the most
+  recently seen commit ID for a remote branch. When `git status` shows that
+  you're up to date with `origin/main`, it is just looking at this file.
+
+* The config file (`.git/config`) is where you configure remotes. Git has
+  global and local settings; the local settings are here and the global ones in
+  `${HOME}/.gitconfig`.
+
+* Hooks are optional scripts that you can set up to run (before a commit for
+  example) anything you want. Check out `.git/hooks/pre-commit.sample` for an
+  example.
+
+* The staging area (`.git/index`) stores files that you are preparing to
+  commit.
