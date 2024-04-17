@@ -285,11 +285,44 @@ If you accidentally create commits in the detached HEAD state, you can avoid
 losing them by creating a new branch:
 
 ```console
-`git switch -c oops`
+git switch -c oops
 ```
 
 You can always use HEAD to get the latest commit on the current branch; if you
 run `git show HEAD`, it will always show you the current commit, whether or not
 you're in the detached HEAD state.
+
+Git often uses the term "reference" in error messages
+
+```console
+git switch blah
+```
+```
+fatal: invalid reference: blah
+```
+
+Reference often just means branch, such as the example above where the `blah`
+branch does not exist.
+
+References are files: either `.git/HEAD` or files in `.git/refs`. There are
+five main types of references.
+
+1. HEAD: - `.git/HEAD`
+2. branches - `.git/refs/heads/BRANCH`
+3. tags - `.git/refs/tags/TAG`
+4. remote-tracking branches - `.git/refs/remotes/REMOTE/BRANCH`
+5. stash - `.git/refs/stash`
+
+All of the above (except 1.) are files that contain a commit ID but the way
+that commit ID is used depends on the _type_ of reference.
+
+There are also references in `.git/FETCH_HEAD` and `.git/refs/notes/`.
+
+Git's garbage collection uses references to decide which commits to delete; the
+algorithm is:
+
+1. Find all references and every commit in every reference's reflog
+2. Find every commit in the history of any of those commits
+3. Delete every commit that was not found
 
 
