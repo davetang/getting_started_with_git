@@ -153,3 +153,96 @@ git config --global diff.algorithm histogram
 have not been committed, use `git diff HEAD`.
 
 * `git commit -a` does not automatically add new files.
+
+* Theoretically you can use Git without using branches and keep track of commit
+  IDs manually.
+
+* Every branch has three things:
+    * a name (like `main`)
+    * a latest commit
+    * a reflog showing how much that branch has evolved over time
+
+* Branches also have a corresponding remote branch which they track.
+
+```console
+git remote show origin
+```
+```
+* remote origin
+  Fetch URL: git@github.com:davetang/getting_started_with_git.git
+  Push  URL: git@github.com:davetang/getting_started_with_git.git
+  HEAD branch: main
+  Remote branches:
+    main            tracked
+    test_gh_actions tracked
+  Local branch configured for 'git pull':
+    main merges with remote main
+  Local ref configured for 'git push':
+    main pushes to main (up to date)
+```
+
+* Branches are core to how Git stores your work; if your commits are lost,
+  i.e., not on a branch, they will become difficult to find and Git's garbage
+  collection will eventually delete them.
+
+* The _only difference_ between the `main` branch and any other branch is how
+  you treat them; for example, it is common to never commit to `main` directly
+  but to commit to other branches that are later merged.
+
+* All changes to a branch are recorded in its `reflog` (reference log).
+
+```console
+git reflog main
+```
+
+* Some gotchas:
+    * when you push/pull a branch, the name **does not** have to match
+    * you can **remove** commits from a branch with `git reset`
+    * Often Git won't protect you from messing up your branch!
+
+* You can think of a Git branch in three different ways
+
+1. Just the commits that branch off, like how `develop` branches off `main`.
+   Git does not know that `develop` is branched off of `main`; you will need to
+   tell Git when you merge or rebase (`git rebase main`).
+
+```mermaid
+gitGraph
+    commit
+    commit
+    branch develop
+    commit
+    commit
+    checkout main
+    commit
+    commit
+```
+
+2. Every previous commit; this is what `git log main` will show you.
+
+```mermaid
+gitGraph
+    commit
+    commit
+    commit
+    commit
+```
+
+3. Just the commit at the end; this is how branches are stored internally. **A
+   branch is fundamentally a _name_ for a _commit ID_**.
+
+```console
+cat .git/refs/heads/main
+```
+```
+c9c959ba5d1a30bb6c87fab29854524867f34259
+```
+
+`c9c959ba5d1a30bb6c87fab29854524867f34259` is the ID of the latest commit on `main`.
+
+```console
+git log | head -1
+```
+```
+commit c9c959ba5d1a30bb6c87fab29854524867f34259
+```
