@@ -483,4 +483,78 @@ To see what a merge did, use
 This will re-merge the parents and show you the difference between the original
 merge and what's actually in the merge commit.
 
+Any repository you are pushing to or pulling from is called a "remote". Remotes
+can be:
 
+* Hosted by GitHub/GitLab/etc.
+* On your own server
+* Just a folder on your computer
+
+The default name for a remote is `origin` but you can change it to anything. Run
+
+    git push origin main
+
+where `origin` is the remote name and `main` is the remote branch. A nice tip
+is to set `push.autoSetupRemote true` to automatically set up tracking the
+first time a new branch is pushed.
+
+Remotes are configured in `.git/config` and every remote has a name and URL. It
+is also used to set up tracking between the local `main` and the remote `main`
+on `origin`. This is to let Git know what to push to when you run `git push` or
+`git pull`.
+
+One use case is to use two remotes when contributing to open-source projects.
+Pull from the main project repo, push to a personal fork, and finally make a
+pull request.
+
+Git has three main protocols for remotes; the protocol is embedded in the URL
+in `.git/config`.
+
+1. HTTPS (use only if you only want to pull)
+2. SSH (use if you need to push)
+3. Local (e.g., file:///home/dtang/myrepo)
+
+Diverged branches are a typical problem when pushing/pulling with remote
+branches. This happens when both sides have commits that the other does not.
+
+Use `git fetch` (get the latest remote state first) and `git status` to see if
+the branches have diverged.
+
+There are four possibilities with a remote branch:
+
+1. Up-to-date
+2. Need to pull
+3. Need to push
+4. Diverged
+
+When branches are diverged, you need to decide how to solve it. One solution is
+to run `git pull --rebase`.
+
+There are three ways to reconcile two diverged brances
+
+1. Combine the changes from both with `rebase` or `merge`
+    * `git pull --rebase` and `git push`
+    * `git pull --no-rebase` and `git push`
+2. Throw out your local changes
+    * `git switch -c newbranch`
+    * `git switch main`
+    * `git reset --hard origin/main`
+3. Throw out the remote changes (but be careful with this approach!)
+    * `git push --force` (this is always dangerous; `--force-wht-lease` is a
+      little safer)
+
+Reasons to throw away changes:
+
+1. Accidentally committed to `main` instead of a new branch
+2. Throwing away remote changes is we want to amend a commit after pushing it
+   and we are the **only person** working on that branch
+
+However, the "up to date" status from `git status` may be misleading. This does
+not mean that you are up to date with the remote main branch. Some version
+control software only work with Internet connectivity but Git works offline.
+Nothing in Git will use the Internet except `git pull`, `git push`, and `git
+fetch`.
+
+Every remote branch has a local cache named like `origin/mybranch`; but this is
+not called a cache by Git and is known as a "remote tracking branch". This
+cache is only updated on `git pull`, `git push`, and `git fetch`.
