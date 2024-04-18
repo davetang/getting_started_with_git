@@ -5,6 +5,7 @@
   - [Upgrading](#upgrading)
   - [Configuration](#configuration)
     - [GitLab Git LFS](#gitlab-git-lfs)
+  - [User setup](#user-setup)
 
 ## Installation
 
@@ -90,4 +91,30 @@ Set the following in the config file to enable LFS.
 ```
 gitlab_rails['lfs_enabled'] = true
 gitlab_rails['lfs_storage_path'] = "/data/gitlab/gitlab-rails/shared/lfs-objects"
+```
+
+## User setup
+
+1. Generate key and copy or move to `~/.ssh`
+
+    ssh-keygen -t rsa -b 4096 -f local_gitlab
+
+2. Add public key to http://address:8000/-/profile/keys)
+
+3. Add entry to `~/.ssh/config`
+
+```
+Host local
+ HostName address
+ PreferredAuthentications publickey
+ IdentityFile ~/.ssh/local_gitlab
+```
+
+4. Test
+
+```console
+ssh -T git@local
+```
+```
+Welcome to GitLab, @davetang!
 ```
