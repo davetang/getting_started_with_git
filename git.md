@@ -540,7 +540,7 @@ There are three ways to reconcile two diverged brances
     * `git switch main`
     * `git reset --hard origin/main`
 3. Throw out the remote changes (but be careful with this approach!)
-    * `git push --force` (this is always dangerous; `--force-wht-lease` is a
+    * `git push --force` (this is always dangerous; `--force-with-lease` is a
       little safer)
 
 Reasons to throw away changes:
@@ -558,3 +558,75 @@ fetch`.
 Every remote branch has a local cache named like `origin/mybranch`; but this is
 not called a cache by Git and is known as a "remote tracking branch". This
 cache is only updated on `git pull`, `git push`, and `git fetch`.
+
+Commits in the history of a branch/tag never change and you can always use the
+commit ID to get you work back. However, some unreachable commits are hard to
+find and they will eventually get deleted by Git's garbage collection (usually
+not for a few months though).
+
+Branches and HEAD change all the time but there is a history of all the changes
+in the reflog; the reflog is not easy to use but at least it is there.
+
+The staging area changes all the time and there is no history.
+
+`git stash` is usually used to throw away work and `git stash drop` deletes
+entries forever. You can technically get them back by using `git fsck` to
+search every single commit.
+
+Git has no undo; there is no uncommit, unmerge, and unrebase. Instead, Git has
+a single **dangerous** command for undoing: `git reset`.
+
+Most Git commands move the current branch forwards (though rebase is a sideways
+move).
+
+`git reset` can move the current branch _anywhere_: backwards, forwards, and
+sideways! This makes it possible to undo but you can also mess up your branch.
+
+`git reset HEAD^` finds the commit ID corresponding to `HEAD^` and orces your
+current branch to point to that commit ID.
+
+`git reset COMMIT` keeps all the files in your working directory _exactly the
+same_ but `git reset --hard COMMIT` throws away all your uncommited changes,
+which is useful but dangerous.
+
+Using `git reset` can result in lost commits, especially if you move a branch
+backwards. If you use `--hard` you can **permanently lose** your uncommited
+changes.
+
+When looking for commits, it can be:
+
+1. Easy if it's on a branch
+2. Annoying if it's in the reflog
+3. Nightmare if you need to search every single commit using `git fsck`
+
+A reflog is a log of hashes and it contains every commit ID that the
+branch/tag/HEAD has ever pointed to.
+
+The two main reflog to use are:
+
+1. `git reflog` which contains:
+    * every single commit you have ever had checked out
+    * has everything but is noisy
+    * it's the reflog for HEAD
+2. `git reflog BRANCH` which contains just the history for that branch and
+   might be less noisy
+
+* When you delete a branch, Git deletes its reflog
+* If you delete a stash entry, you can't use the reflog to get it back
+* reflog entries don't correspond exactly to Git commands you ran
+
+To use the reflog:
+
+1. Run `git reflog`
+2. Manually look for the commit ID
+3. Look into the commit
+    * `git show COMMIT`
+    * `git log COMMIT`
+4. Repeat until you find the commit you were looking for
+5. Use something like
+    * `git reset COMMIT` or
+    * `git branch NAME COMMIT`
+   to get the commit on the branch.
+
+`git fsck` searches every commit and is the last resort if all else fails when
+trying to find a commit.
