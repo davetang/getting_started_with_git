@@ -6,6 +6,7 @@
   - [Configuration](#configuration)
     - [GitLab Git LFS](#gitlab-git-lfs)
   - [User setup](#user-setup)
+  - [Add remote](#add-remote)
 
 ## Installation
 
@@ -117,4 +118,18 @@ ssh -T git@local
 ```
 ```
 Welcome to GitLab, @davetang!
+```
+
+## Add remote
+
+On GitLab make a new repository called `test_repo`.
+
+```console
+git init test_repo
+cd test_repo/
+echo hi > test.txt
+git add test.txt
+git commit -m 'Add test file'
+git remote add origin git@local:davetang/test_repo.git
+git push --set-upstream origin main
 ```
