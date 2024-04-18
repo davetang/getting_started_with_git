@@ -19,6 +19,34 @@ This directory contains notes for a self-managed GitLab instance.
 [Install](https://about.gitlab.com/install/) on various operating
 systems/environments.
 
+### Debian 12
+
+Dependencies.
+
+```console
+sudo apt-get update \
+    && sudo apt-get install -y curl openssh-server ca-certificates perl
+```
+
+Add the GitLab package repository and install the package.
+
+```console
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+```
+
+Install.
+
+```console
+sudo apt-get install -y gitlab-ee
+```
+
+[Configure](#configuration) and head over to the URL to see if everything is
+working.
+
+Use `root` and the password in `/etc/gitlab/initial_root_password` to login.
+Then go to http://address:8000/-/user_settings/password/edit and change the
+root password.
+
 ## Upgrading
 
 [Upgrading](https://docs.gitlab.com/ee/update/package/) needs to be performed
@@ -45,11 +73,14 @@ After modifying `/etc/gitlab/gitlab.rb`, run the following:
 
     sudo gitlab-ctl reconfigure
 
+and after some time it should say "gitlab Reconfigured!"
+
 If you have set up the hostname of your server in `/etc/hosts`, you can use it
 in the config file:
 
     external_url 'http://hostname:8000'
     pages_external_url "http://hostname:8000/"
+    gitlab_pages['enable'] = true
 
 On Windows the Hosts file is in:
 
