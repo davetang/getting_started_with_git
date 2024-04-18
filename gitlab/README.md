@@ -1,18 +1,10 @@
-Table of Contents
-=================
+## Table of Contents
 
-   * [Installation](#installation)
-   * [Upgrading](#upgrading)
-   * [Configuration](#configuration)
-      * [GitLab Git LFS](#gitlab-git-lfs)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
-[GitLab](https://about.gitlab.com/) is a software development and IT operations
-(DevOps) platform that provides various features including a Git repository
-manager and continuous integration and deployment (CI/CD) pipeline. 
-
-This directory contains notes for a self-managed GitLab instance. 
+  - [Installation](#installation)
+    - [Debian 12](#debian-12)
+  - [Upgrading](#upgrading)
+  - [Configuration](#configuration)
+    - [GitLab Git LFS](#gitlab-git-lfs)
 
 ## Installation
 
