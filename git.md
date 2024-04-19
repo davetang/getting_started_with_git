@@ -30,7 +30,8 @@
     * Merge it with another commit (`git merge`)
     * Examine its parents, grandparents, etc. (`git log`)
 
-You can see how Git stores your files by using `git cat-file -p commit_hash`. 
+You can see how Git stores your files by using `git cat-file -p commit_hash`.
+The `-p` parameter is for `pretty-print <object> content`.
 
 ```console
 git cat-file -p $(git log | head -1 | cut -f2 -d' ')
@@ -96,22 +97,19 @@ exit 0
 * Storing files by their hash makes Git efficient: if you change one file, Git
   only needs to save one new blob to store the snapshot.
 
-* While commits are usually saved forever but Git's garbage collection
+* While commits are usually saved forever, Git's garbage collection
   periodically deletes _unreachable commits_.
 
 * Some ways commits get "lost" include:
     * `git commit --amend`
     * `git rebase`
-    * deleting a branch that has not been merged
+    * deleting a branch that has not been merged `git branch -D blah`
 
 * Sometimes a commit isn't in the history of any branch or tag but you can find
   them with `git reflog`
 
 * Sometimes a commit isn't referenced anywhere and you need to search all
   commits to find it.
-
-* A commit can get lost using `git commit --amend`, `git rebase`, and `git
-  branch -D feature` (deleting an unmerged branch).
 
 * In Git, moving a file is the same as deleting the old one and adding the new
   one.
@@ -128,6 +126,24 @@ git add new.sh
 1. takes two versions of code,
 2. compares them, and
 3. tries to make a human readable summary (but it doesn't always work well)
+
+The Git merge conflicts URL was added in commit 3a2d3e.
+
+```console
+git diff e54dba 3a2d3e
+```
+```
+diff --git a/README.md b/README.md
+index 86b2926..2bd3ce3 100644
+--- a/README.md
++++ b/README.md
+@@ -832,4 +832,4 @@ Another way around this is to change your container `uid` to match the `actions-
+ * [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do) chapter 5 "Git for Scientists"
+ * My [Git Wiki page](https://davetang.org/wiki2/index.php?title=Git)
+ * My old [blog post](https://davetang.org/muse/2013/09/04/getting-started-with-git/)
+-
++* [Git merge conflicts](https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts)
+```
 
 * Git has many diff algorithms and the histogram method does a better job if
 you rearrange your code. You can use change it to histogram using `git config`.
@@ -281,12 +297,49 @@ You can end up in a detached HEAD state if you checkout:
 2. A remote-tracking branch - `git checkout origin/main`
 3. A commit ID - `git checkout hash`
 
+If we use checkout on a commit ID.
+
+```console
+git checkout 789ec29a661768146367ac3a545b1924fabb5992
+```
+```
+Note: switching to '789ec29a661768146367ac3a545b1924fabb5992'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 789ec29 Hello instead of hi
+```
+
+Check out `.git/HEAD`.
+
+```console
+cat .git/HEAD
+```
+```
+789ec29a661768146367ac3a545b1924fabb5992
+```
+
 If you accidentally create commits in the detached HEAD state, you can avoid
-losing them by creating a new branch:
+losing them by creating a new branch (as Git advised above):
 
 ```console
 git switch -c oops
 ```
+
+Use `git switch -` to switch back to `main`.
 
 You can always use HEAD to get the latest commit on the current branch; if you
 run `git show HEAD`, it will always show you the current commit, whether or not
