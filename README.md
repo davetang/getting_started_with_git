@@ -832,4 +832,4 @@ Another way around this is to change your container `uid` to match the `actions-
 * [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do) chapter 5 "Git for Scientists"
 * My [Git Wiki page](https://davetang.org/wiki2/index.php?title=Git)
 * My old [blog post](https://davetang.org/muse/2013/09/04/getting-started-with-git/)
-
+* [Git merge conflicts](https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts)
