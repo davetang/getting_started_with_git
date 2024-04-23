@@ -82,3 +82,85 @@ To local:davetang/spaghetti.git
  ! [remote rejected] HEAD -> main (pre-receive hook declined)
 error: failed to push some refs to 'local:davetang/spaghetti.git'
 ```
+
+## Resetting
+
+Make some change.
+
+```console
+echo 11 > 11.txt
+git add 11.txt
+git commit -m 'Add 11'
+```
+
+Soft reset leaves file staged.
+
+```console
+git reset --soft c07033c742ade01082c780f41c59792a6034a47b
+git status .
+```
+```
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   11.txt
+```
+
+Mixed reset (also the default) leaves file unstaged as well.
+
+```console
+git reset --mixed c07033c742ade01082c780f41c59792a6034a47b
+git status .
+```
+```
+git status .
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        11.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Hard reset is evil! Erases all changes up until the specified commit!
+
+```console
+git reset --hard 8c39ad78578266c0eeb8f1c8a7716e6cc7dc3307
+```
+```
+HEAD is now at 8c39ad7 Add 9
+```
+
+Commit c07033c742ade01082c780f41c59792a6034a47b is gone!
+
+```console
+git log | grep commit
+```
+```
+commit 8c39ad78578266c0eeb8f1c8a7716e6cc7dc3307
+commit 0f53b4ffc0cad50f0b7e6a09b9f54c8306cc9138
+commit 80031907beb935c3f4fd36e78aee0773499ae107
+commit 19aff22e9d0f06055f07f8f0731cd75fbf4e0577
+commit 133bb18a4901d070596cfaf3db64a47a17882d07
+commit 2a9bcf2eaff2cb1b5bad354ae35c36616c36ae3f
+commit 7c7bc9dac732d3aa04ab425a766784352e0a49be
+commit 062998222ec4422b9fa078933d839361e3b3cf42
+commit c0d04d1b8b800853b6c9554fdd4e9bb795150204
+```
+
+But good to know that we can't force push after a hard reset.
+
+```console
+git push --force
+```
+```
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: GitLab: You are not allowed to force push code to a protected branch on this project.
+To local:davetang/spaghetti.git
+ ! [remote rejected] main -> main (pre-receive hook declined)
+error: failed to push some refs to 'local:davetang/spaghetti.git'
+```
