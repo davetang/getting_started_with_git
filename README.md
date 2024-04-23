@@ -684,6 +684,26 @@ ls bad.txt
 ls: cannot access bad.txt: No such file or directory
 ```
 
+Use `git log` to find the commit that created `bad.txt` then use `git checkout commit` to go back to that particular commit.
+
+```console
+git checkout dfaccc3ed393fe3e647c80bf2211b768d25d040f
+ls bad.txt
+```
+```
+bad.txt
+```
+
+Finally, go back to the tip.
+
+```console
+git checkout main
+```
+```
+Previous HEAD position was dfaccc3 Add bad.txt
+Switched to branch 'main'
+```
+
 ## Submodules
 
 [Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
