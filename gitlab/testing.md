@@ -1,3 +1,11 @@
+# Table of Contents
+
+- [Stuff not to do](#stuff-not-to-do)
+  - [Setup](#setup)
+  - [Force push to main](#force-push-to-main)
+  - [Resetting](#resetting)
+- [Merging versus rebasing](#merging-versus-rebasing)
+
 # Stuff not to do
 
 Inspired by [How to get somebody fired using Git](https://dev.to/mauroaccorinti/how-to-get-somebody-fired-using-git-31if).
@@ -163,4 +171,136 @@ remote: GitLab: You are not allowed to force push code to a protected branch on 
 To local:davetang/spaghetti.git
  ! [remote rejected] main -> main (pre-receive hook declined)
 error: failed to push some refs to 'local:davetang/spaghetti.git'
+```
+
+# Merging versus rebasing
+
+Inspired by [Git Merge vs. Rebase: Key Differences](https://dev.to/codeparrot/git-merge-vs-rebase-key-differences-1pb4).
+
+Using the same [setup](#setup), checkout at 0f53b4ffc0cad50f0b7e6a09b9f54c8306cc9138, create a new branch, and add some commits.
+
+```console
+git checkout 0f53b4ffc0cad50f0b7e6a09b9f54c8306cc9138
+git switch -c new_feature
+
+for I in {20..24}; do echo ${I} > ${I}.txt; git add ${I}.txt; git commit -m "Add ${I}"; done
+```
+
+Merge.
+
+```console
+git checkout main
+git merge new_feature
+git log
+```
+```
+commit 083f03b322835824610d79294a40f5225655aa2b (HEAD -> main)
+Merge: c07033c e76ae5b
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:09:52 2024 +0900
+
+    Merge branch 'new_feature'
+
+commit e76ae5b85905cda637b00af9d34903d1a305182c (new_feature)
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:08:57 2024 +0900
+
+    Add 24
+
+commit 096415d9d0a64367650f42242a46b426850d06f7
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:08:57 2024 +0900
+
+    Add 23
+
+commit 9f3b54ecd78b6d3be15135e37235030f52d74bc1
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:08:57 2024 +0900
+
+    Add 22
+
+commit 70efda7bac906e6fe0f65e5a40e7951502cc807f
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:08:57 2024 +0900
+
+    Add 21
+
+commit 8b139f368e47ca2690ad71fc86a849099090d246
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:08:57 2024 +0900
+
+    Add 20
+
+commit c07033c742ade01082c780f41c59792a6034a47b (origin/main)
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Tue Apr 23 23:13:24 2024 +0900
+
+    Add 10
+```
+
+Reset and try rebase.
+
+```console
+git reset c07033c742ade01082c780f41c59792a6034a47b
+git log
+```
+```
+commit c07033c742ade01082c780f41c59792a6034a47b (HEAD -> main, origin/main)
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Tue Apr 23 23:13:24 2024 +0900
+
+    Add 10
+```
+
+Same as before.
+
+```console
+git checkout 0f53b4ffc0cad50f0b7e6a09b9f54c8306cc9138
+git switch -c new_feature2
+
+for I in {30..34}; do echo ${I} > ${I}.txt; git add ${I}.txt; git commit -m "Add ${I}"; done
+```
+
+Rebase.
+
+```console
+git rebase main
+git log
+```
+```
+commit 23098fd333883881990eda4e2c5dfd9b872bf7bb (HEAD -> new_feature2)
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:14:29 2024 +0900
+
+    Add 34
+
+commit dbffdd303fffeb1dbff52bfaeca41d1d1e8030a7
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:14:29 2024 +0900
+
+    Add 33
+
+commit 62f62eaee2c80410d041b69af22d71fb8aa1198f
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:14:29 2024 +0900
+
+    Add 32
+
+commit 8fb56fa27a1be6a34618f28f3acd64c1f18b40f7
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:14:29 2024 +0900
+
+    Add 31
+
+commit 2f0013ecf0b32c2297fc32077cccfac999f40e83
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Thu Apr 25 21:14:29 2024 +0900
+
+    Add 30
+
+commit c07033c742ade01082c780f41c59792a6034a47b (origin/main, main)
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Tue Apr 23 23:13:24 2024 +0900
+
+    Add 10
 ```
