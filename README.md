@@ -10,6 +10,7 @@
     - [Renaming a branch](#renaming-a-branch)
     - [Default git init branch](#default-git-init-branch)
     - [HEAD](#head)
+  - [Tagging](#tagging)
   - [Remotes](#remotes)
   - [Useful commands](#useful-commands)
     - [Show history of a file](#show-history-of-a-file)
@@ -396,6 +397,73 @@ ref: refs/heads/head_check
 HEAD can point to any commit and it does not need to be the last commit in any branch. When HEAD points to a commit that is not the last commit in a branch, it is a detached HEAD. [In addition](https://www.sbf5.com/~cduan/technical/git/git-1.shtml#heads):
 
 >A head is simply a reference to a commit object. Each head has a name (branch name or tag name, etc). By default, there is a head in every repository called master. A repository can contain any number of heads. At any given time, one head is selected as the "current head." This head is aliased to HEAD and is always in capitals. Note this difference: a "head" (lowercase) refers to any one of the named heads in the repository; "HEAD" (uppercase) refers exclusively to the currently active head. This distinction is used frequently in Git documentation.
+
+## Tagging
+
+Git has the ability to [tag specific points](https://git-scm.com/book/en/v2/Git-Basics-Tagging) in a repository’s history as being important. Typically, people use this functionality to mark release points (v1.0, v2.0 and so on).
+
+List tags.
+
+```console
+git tag
+```
+
+You can also search for tags that match a particular pattern.
+
+```console
+git tag -l "v1.8.5*"
+```
+
+Git supports two types of tags:
+
+1. lightweight and
+2. annotated.
+
+A lightweight tag is very much like a branch that doesn't change — it's just a pointer to a specific commit.
+
+Annotated tags, however, are stored as full objects in the Git database. They are checksummed; contain the tagger name, email, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It is generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don't want to keep the other information, lightweight tags are available too.
+
+The easiest way to create an annotated tag is to specify `-a` when you run the tag command. The `-m` specifies a tagging message, which is stored with the tag. If you don't specify a message for an annotated tag, Git launches your editor so you can type it in.
+
+```console
+git tag -a v1.4 -m "my version 1.4"
+```
+
+You can see the tag data along with the commit that was tagged by using the `git show` command.
+
+```console
+git show v1.4
+```
+
+By default, the `git push` command doesn't transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them. This process is just like sharing remote branches — you can run `git push origin <tagname>`.
+
+```console
+git push origin v1.5
+```
+
+If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command. This will transfer all of your tags to the remote server that are not already there.
+
+```console
+git push origin --tags
+```
+
+To delete a tag on your local repository, you can use `git tag -d <tagname>`.
+
+```console
+git tag -d v1.4-lw
+```
+
+To delete a remote tag.
+
+```console
+git push origin --delete <tagname>
+```
+
+If you want to view the versions of files a tag is pointing to, you can do a `git checkout` of that tag, although this puts your repository in "detached HEAD" state.
+
+```console
+git checkout v2.0.0
+```
 
 ## Remotes
 
