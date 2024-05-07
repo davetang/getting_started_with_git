@@ -133,3 +133,39 @@ git commit -m 'Add test file'
 git remote add origin git@local:davetang/test_repo.git
 git push --set-upstream origin main
 ```
+
+What if I created a repo locally first?
+
+```console
+mkdir first && cd first
+git init
+echo 1 > 1.txt
+git add 1.txt
+git commit -m 'First file'
+```
+
+Go to GitLab and:
+
+1. Create a new project.
+2. Create blank project
+3. Fill in the Project URL
+4. For the "Project Configuration" untick "Initialize repository with a README" because as suggested "Skip this if you plan to push up an existing repository."
+5. Click create project
+6. Push an existing repo
+
+Note below that I created a repo with a different name on GitLab to illustrate that you do not need to use the same name as the folder.
+
+```console
+cd first
+git remote add origin git@local:davetang/some_repo.git
+git push --set-upstream origin main
+```
+```
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 216 bytes | 216.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To local:davetang/some_repo.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+```
