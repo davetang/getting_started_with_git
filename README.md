@@ -25,6 +25,7 @@
   - [GitHub Actions](#github-actions)
     - [Encrypted secrets](#encrypted-secrets)
     - [Safe directory](#safe-directory)
+- [Aliases](#aliases)
 - [Useful links](#useful-links)
 
 # Introduction
@@ -905,6 +906,39 @@ To add an exception for this directory, call:
 The latest version of Git now checks whether a repository is owned by you and if not, you will get the error above. This is a problem when using Docker with GitHub Actions, since your user id will be different (inside Docker, your `uid` is `0(root)`). Currently, the easiest way around this is to run the `git config` step as suggested by the error, where `repo` is the name of your GitHub repository.
 
 Another way around this is to change your container `uid` to match the `actions-runner-controller`, which is [apparently 1000](https://github.com/actions/checkout/issues/760#issuecomment-1097797031).
+
+# Aliases
+
+The [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) framework has a long list of Git aliases (see `ohmyzsh_git_aliases.sh`) that can save you some typing. Here are the ones that I use the most often.
+
+```console
+alias g='git'
+alias ga='git add'
+alias gb='git branch'
+alias gco='git checkout'
+alias gclean='git clean --interactive -d'
+alias gcl='git clone --recurse-submodules'
+alias gcmsg='git commit --message'
+alias gcf='git config --list'
+alias gd='git diff'
+alias gf='git fetch'
+alias gfo='git fetch origin'
+alias ghh='git help'
+alias glgg='git log --graph'
+alias gm='git merge'
+alias gl='git pull'
+alias gp='git push'
+alias gpd='git push --dry-run'
+alias grf='git reflog'
+alias gr='git remote'
+alias grv='git remote --verbose'
+alias gra='git remote add'
+alias grh='git reset'
+alias grs='git restore'
+alias grm='git rm'
+alias gst='git status'
+alias gsw='git switch'
+```
 
 # Useful links
 
