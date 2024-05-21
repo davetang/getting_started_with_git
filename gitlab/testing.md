@@ -1,12 +1,12 @@
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Stuff not to do](#stuff-not-to-do)
   - [Setup](#setup)
   - [Force push to main](#force-push-to-main)
   - [Resetting](#resetting)
 - [Merging versus rebasing](#merging-versus-rebasing)
 - [Can I revert a commit when I pushed to remote?](#can-i-revert-a-commit-when-i-pushed-to-remote)
+- [Working a separate branch while main gets updated](#working-a-separate-branch-while-main-gets-updated)
 
 # Stuff not to do
 
@@ -377,3 +377,49 @@ git push --force
 ```
 
 Commit gone from local and remote.
+
+# Working a separate branch while main gets updated
+
+Create new branch.
+
+```console
+git switch -c update_from_main
+```
+
+Switch back to `main`, make a change, and push to remote.
+
+```console
+git switch main
+echo something > test2.txt
+git add test2.txt
+git commit -m 'Add test2.txt'
+git push origin main
+```
+
+Switch back to `update_from_main` and try to pull.
+
+```console
+git switch update_from_main
+git pull
+```
+```
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+    git branch --set-upstream-to=origin/<branch> update_from_main
+```
+
+Pull from `main`, which is actually running `git fetch` and `git merge`. The file added on `main` will be available in `update_from_main`.
+
+```console
+git pull origin main
+cat test2.txt
+```
+```
+something
+```
