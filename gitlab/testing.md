@@ -1,10 +1,12 @@
-# Table of Contents
+## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Stuff not to do](#stuff-not-to-do)
   - [Setup](#setup)
   - [Force push to main](#force-push-to-main)
   - [Resetting](#resetting)
 - [Merging versus rebasing](#merging-versus-rebasing)
+- [Can I revert a commit when I pushed to remote?](#can-i-revert-a-commit-when-i-pushed-to-remote)
 
 # Stuff not to do
 
@@ -304,3 +306,74 @@ Date:   Tue Apr 23 23:13:24 2024 +0900
 
     Add 10
 ```
+
+# Can I revert a commit when I pushed to remote?
+
+Create and switch to new branch, add file, commit, and push.
+
+```console
+git switch -c test_revert
+echo 1984 > seed.txt
+git add seed.txt
+git commit -m 'Add text file containing seed'
+git push --set-upstream origin test_revert
+```
+
+Revert.
+
+```console
+git revert HEAD
+```
+```
+[test_revert 93f2859] Revert "Add text file containing seed"
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 seed.txt
+```
+
+If I push, then there are two commits. This may be desirable to keep the history intact.
+
+```console
+git push
+```
+
+What if I want to completely remove that commit?
+
+```console
+git switch -c test_revert2
+echo 1984 > seed.txt
+git add seed.txt
+git commit -m 'Add text file containing seed'
+git push --set-upstream origin test_revert2
+```
+
+Throw out your local changes! This deletes `seed.txt`!
+
+```console
+git reset --hard origin/main
+```
+```
+HEAD is now at d3b69e4 Fix conflict
+```
+
+Try to push.
+
+```console
+git push
+```
+```
+To local:davetang/test_repo
+ ! [rejected]        test_revert2 -> test_revert2 (non-fast-forward)
+error: failed to push some refs to 'local:davetang/test_repo'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+Push with force! (Not recommended!)
+
+```console
+git push --force
+```
+
+Commit gone from local and remote.
