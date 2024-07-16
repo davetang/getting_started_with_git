@@ -40,11 +40,25 @@ git clone https://github.com/davetang/getting_started_with_git.git
 
 ## Getting started
 
-First thing is to [install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) if you haven't already. Once installed, configure your name and email.
+First thing is to [install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) if you haven't already. Once installed, configure your name and email globally.
 
-```bash
+```console
 git config --global user.name "Dave Tang"
 git config --global user.email "davetingpongtang@gmail.com"
+```
+
+Check your user name and email.
+
+```console
+git config user.name
+git config user.email
+```
+
+If you want a specific user name and email for a repository, `cd` into the repo and leave out `--global`.
+
+```console
+git config user.name "Dave Tang"
+git config user.email "me@davetang.org"
 ```
 
 You can use Git to version control any directory on your system. Simply navigate to the directory and use `git init`.
