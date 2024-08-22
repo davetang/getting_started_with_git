@@ -22,6 +22,7 @@
     - [Git revert](#git-revert)
   - [Submodules](#submodules)
 - [GitHub](#github)
+  - [GitHub CLI](#github-cli)
   - [GitHub Actions](#github-actions)
     - [Encrypted secrets](#encrypted-secrets)
     - [Safe directory](#safe-directory)
@@ -826,6 +827,62 @@ git submodule update --recursive --remote
 ```
 
 # GitHub
+
+## GitHub CLI
+
+Download appropriate binary from the GitHub CLI [releases page](https://github.com/cli/cli/releases).
+
+```console
+wget https://github.com/cli/cli/releases/download/v2.55.0/gh_2.55.0_linux_amd64.tar.gz
+```
+
+Generate a Personal Access Token at <https://github.com/settings/tokens>:
+
+1. Click on Generate new token
+2. Note = GitHub CLI
+3. Tick: `repo`, `read:org`
+4. Generate token
+5. Copy token
+
+To get started with GitHub CLI.
+
+```console
+gh auth login
+```
+```
+? What account do you want to log into? GitHub.com
+? What is your preferred protocol for Git operations on this host? SSH
+? Generate a new SSH key to add to your GitHub account? No
+? How would you like to authenticate GitHub CLI? Paste an authentication token
+Tip: you can generate a Personal Access Token here https://github.com/settings/tokens
+The minimum required scopes are 'repo', 'read:org'.
+? Paste your authentication token: ****************************************
+- gh config set -h github.com git_protocol ssh
+✓ Configured git protocol
+! Authentication credentials saved in plain text
+✓ Logged in as davetang
+```
+
+Create new GitHub repository interactively
+
+```console
+gh repo create
+```
+```
+? What would you like to do? Create a new repository on GitHub from scratch
+? Repository name misc
+? Repository owner davetang
+? Description Miscellaneous notes and tips
+? Visibility Public
+? Would you like to add a README file? Yes
+? Would you like to add a .gitignore? No
+? Would you like to add a license? Yes
+? Choose a license Creative Commons Zero v1.0 Universal
+? This will create "misc" as a public repository on GitHub. Continue? Yes
+✓ Created repository davetang/misc on GitHub
+  https://github.com/davetang/misc
+? Clone the new repository locally? No
+```
 
 ## GitHub Actions
 
