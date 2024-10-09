@@ -671,6 +671,16 @@ the working directory is not affected. This is the default.
 * `--hard` - the staged snapshot and the working directory are both updated to
 match the specified commit.
 
+Reset latest change.
+
+```console
+git reset --soft HEAD^
+
+# Optional
+# force push to main
+# git push origin +main
+```
+
 Use `reset --hard` to reset HEAD, index and working directory.
 
 ```bash
