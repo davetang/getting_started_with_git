@@ -20,6 +20,7 @@
     - [Git reset](#git-reset)
     - [Git clean](#git-clean)
     - [Git revert](#git-revert)
+  - [Stash](#stash)
   - [Submodules](#submodules)
 - [GitHub](#github)
   - [GitHub CLI](#github-cli)
@@ -799,6 +800,15 @@ git checkout main
 Previous HEAD position was dfaccc3 Add bad.txt
 Switched to branch 'main'
 ```
+
+## Stash
+
+`git stash` temporarily stores your local, uncommitted changes, allowing you to switch branches, pull updates from a remote repository, or perform other operations without committing unfinished work. Use it when:
+
+* There are uncommitted changes but you need to switch branches or pull new changes from remote
+* The changes are not ready to be committed but you don't want to lose the changes while working on something else
+
+Therefore, instead of committing incomplete code or discarding changes, you can stash them and bring them back when needed.
 
 ## Submodules
 
