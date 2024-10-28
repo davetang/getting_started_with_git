@@ -810,6 +810,60 @@ Switched to branch 'main'
 
 Therefore, instead of committing incomplete code or discarding changes, you can stash them and bring them back when needed.
 
+For example when trying to pull from remote:
+
+```
+error: Your local changes to the following files would be overwritten by merge:
+        README.md
+Please commit your changes or stash them before you merge.
+Aborting
+```
+
+Save changes using `git stash`; this saves both tracked and staged changes in a stack and reverts your working directory to the last committed state.
+
+```console
+git stash
+```
+```
+Saved working directory and index state WIP on main: 49c5e33 Update a fork
+```
+
+List stashes.
+
+```console
+git stash list
+```
+```
+stash@{0}: WIP on main: 49c5e33 Update a fork
+```
+
+Now we can pull from remote.
+
+```console
+git pull origin main
+```
+
+Re-apply stash.
+
+```console
+git stash pop
+```
+```
+Auto-merging README.md
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (bc20aa54c39f2d4ad885b1b0cc41862d1ee9771a)
+```
+
+Continue working on changes!
+
 ## Submodules
 
 [Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
