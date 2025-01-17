@@ -546,6 +546,12 @@ Comparing two commits.
 git diff 473679b4d1fc3497fb7b588086addf81425355ad 74fbc521bd371770ec3cf730c62eff06c0a1da53
 ```
 
+Show changes between HEAD (the current commit) and its immediate parent commit in Git (previous commit).
+
+```console
+git diff HEAD~1 HEAD
+```
+
 List all configurations. At the bare minimum, you should always configure your `user.name` and `user.email`
 
 ```bash
