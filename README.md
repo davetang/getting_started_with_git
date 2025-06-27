@@ -636,6 +636,12 @@ Use `checkout` with the `-f` option to throw away all local modifications.
 git checkout -f
 ```
 
+Made a mistake in the message of the latest un-pushed commit? You still have time to edit the message!
+
+```console
+git commit --amend
+```
+
 ### Git reset
 
 Notes from [Git Tools - Reset
