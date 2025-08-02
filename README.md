@@ -1116,6 +1116,8 @@ alias gsw='git switch'
 
 # Signing commits
 
+Signing commits verifies that you actually made the commit, not someone who has access to your GitHub username or email. It's cryptographic proof that the commit came from you, using your GPG or SSH key; only you can sign it using your private key.
+
 ## Generating a new GPG key
 
 <https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key?platform=linux>
