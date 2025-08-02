@@ -30,6 +30,8 @@
     - [Encrypted secrets](#encrypted-secrets)
     - [Safe directory](#safe-directory)
 - [Aliases](#aliases)
+- [Signing commits](#signing-commits)
+  - [Generating a new GPG key](#generating-a-new-gpg-key)
 - [Useful links](#useful-links)
 
 # Introduction
@@ -1110,6 +1112,77 @@ alias grm='git rm'
 alias gst='git status'
 alias gsw='git switch'
 ```
+
+# Signing commits
+
+## Generating a new GPG key
+
+<https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key?platform=linux>
+
+If you don't have an existing GPG key, you can generate a new GPG key to use for signing commits and tags.
+
+```console
+gpg --version
+```
+```
+gpg (GnuPG) 2.2.40
+libgcrypt 1.10.1
+Copyright (C) 2022 g10 Code GmbH
+License GNU GPL-3.0-or-later <https://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Home: /home/dtang/.gnupg
+Supported algorithms:
+Pubkey: RSA, ELG, DSA, ECDH, ECDSA, EDDSA
+Cipher: IDEA, 3DES, CAST5, BLOWFISH, AES, AES192, AES256, TWOFISH,
+        CAMELLIA128, CAMELLIA192, CAMELLIA256
+Hash: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224
+Compression: Uncompressed, ZIP, ZLIB, BZIP2
+```
+
+List keys.
+
+```console
+gpg --list-keys
+```
+
+Generate a GPG key pair.
+
+* (1) RSA and RSA (default)
+* What keysize do you want? (3072)
+* Key is valid for? (0)
+
+```console
+gpg --full-generate-key
+gpg --list-secret-keys --keyid-format=long
+```
+
+From the list of GPG keys, copy the long form of the GPG key ID you'd like to use. In this example, the GPG key ID is `3AA5C34371567BD2`:
+
+```
+/Users/hubot/.gnupg/secring.gpg
+------------------------------------
+sec   4096R/3AA5C34371567BD2 2016-03-10 [expires: 2017-03-10]
+uid                          Hubot <hubot@example.com>
+ssb   4096R/4BB6D45482678BE3 2016-03-10
+```
+
+Prints the GPG key ID, in ASCII armor format
+
+```console
+gpg --armor --export 3AA5C34371567BD2
+```
+
+Copy your GPG key, beginning with `-----BEGIN PGP PUBLIC KEY BLOCK-----` and ending with `-----END PGP PUBLIC KEY BLOCK-----`.
+
+1. In the upper-right corner of any page on GitHub, click your profile picture, then click Settings.
+2. In the "Access" section of the sidebar, click SSH and GPG keys.
+3. Next to the "GPG keys" header, click New GPG key.
+4. In the "Title" field, type a name for your GPG key.
+5. In the "Key" field, paste the GPG key you copied when you generated your GPG key.
+6. Click Add GPG key.
+7. If prompted, authenticate to your GitHub account to confirm the action.
 
 # Useful links
 
