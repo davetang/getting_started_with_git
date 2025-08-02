@@ -1,6 +1,8 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Terminology](#terminology)
+  - [Downstream and upstream](#downstream-and-upstream)
   - [Getting started](#getting-started)
   - [The Three Trees](#the-three-trees)
   - [Git checkout](#git-checkout)
@@ -28,8 +30,6 @@
     - [Encrypted secrets](#encrypted-secrets)
     - [Safe directory](#safe-directory)
 - [Aliases](#aliases)
-- [Terminology](#terminology)
-  - [Downstream and upstream](#downstream-and-upstream)
 - [Useful links](#useful-links)
 
 # Introduction
@@ -41,6 +41,18 @@ You can clone this repository and make your own additional notes to this documen
 ```bash
 git clone https://github.com/davetang/getting_started_with_git.git
 ```
+
+# Terminology
+
+## Downstream and upstream
+
+[In terms of source control](https://stackoverflow.com/questions/2739376/definition-of-downstream-and-upstream), you're downstream when you copy (clone, checkout, etc) from a repository. Information flowed "downstream" to you.
+
+When you make changes, you usually want to send them back "upstream" so they make it into that repository so that everyone pulling from the same source is working with all the same changes. This is mostly a social issue of how everyone can coordinate their work rather than a technical requirement of source control. You want to get your changes into the main project so you're not tracking divergent lines of development.
+
+Sometimes you'll read about package or release managers (the people, not the tool) talking about submitting changes to "upstream". That usually means they had to adjust the original sources so they could create a package for their system. They don't want to keep making those changes, so if they send them "upstream" to the original source, they shouldn't have to deal with the same issue in the next release.
+
+ "Download" and "upload" are verbs. "Upstream" and "downstream" describe a relative position.
 
 ## Getting started
 
@@ -1098,18 +1110,6 @@ alias grm='git rm'
 alias gst='git status'
 alias gsw='git switch'
 ```
-
-# Terminology
-
-## Downstream and upstream
-
-[In terms of source control](https://stackoverflow.com/questions/2739376/definition-of-downstream-and-upstream), you're downstream when you copy (clone, checkout, etc) from a repository. Information flowed "downstream" to you.
-
-When you make changes, you usually want to send them back "upstream" so they make it into that repository so that everyone pulling from the same source is working with all the same changes. This is mostly a social issue of how everyone can coordinate their work rather than a technical requirement of source control. You want to get your changes into the main project so you're not tracking divergent lines of development.
-
-Sometimes you'll read about package or release managers (the people, not the tool) talking about submitting changes to "upstream". That usually means they had to adjust the original sources so they could create a package for their system. They don't want to keep making those changes, so if they send them "upstream" to the original source, they shouldn't have to deal with the same issue in the next release.
-
- "Download" and "upload" are verbs. "Upstream" and "downstream" describe a relative position.
 
 # Useful links
 
