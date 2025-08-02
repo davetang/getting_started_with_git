@@ -1225,6 +1225,12 @@ git config --global commit.gpgsign true
 git config --global tag.gpgSign true
 ```
 
+Add the following to your shell profile; I use Zsh so it's my `.zshrc`; without it `gpg` will fail to ask for the passphrase.
+
+```
+export GPG_TTY=$(tty)
+```
+
 # Useful links
 
 * [Version Control with Git](https://swcarpentry.github.io/git-novice/) by Software Carpentry Foundation
