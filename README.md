@@ -32,6 +32,7 @@
 - [Aliases](#aliases)
 - [Signing commits](#signing-commits)
   - [Generating a new GPG key](#generating-a-new-gpg-key)
+  - [Exporting GPG keys](#exporting-gpg-keys)
   - [Telling Git about your signing key](#telling-git-about-your-signing-key)
 - [Useful links](#useful-links)
 
@@ -1186,6 +1187,24 @@ Copy your GPG key, beginning with `-----BEGIN PGP PUBLIC KEY BLOCK-----` and end
 5. In the "Key" field, paste the GPG key you copied when you generated your GPG key.
 6. Click Add GPG key.
 7. If prompted, authenticate to your GitHub account to confirm the action.
+
+## Exporting GPG keys
+
+Export keys.
+
+```console
+MY_EMAIL=my@email.com
+gpg --export -a ${MY_EMAIL}> pubkey.asc
+gpg --export-secret-keys -a ${MY_EMAIL} > privkey.asc
+```
+
+Import keys, after securely transferring, on the other computer.
+
+```console
+gpg --import pubkey.asc
+gpg --import privkey.asc
+gpg --list-secret-keys --keyid-format=long
+```
 
 ## Telling Git about your signing key
 
