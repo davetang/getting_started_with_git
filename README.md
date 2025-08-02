@@ -32,6 +32,7 @@
 - [Aliases](#aliases)
 - [Signing commits](#signing-commits)
   - [Generating a new GPG key](#generating-a-new-gpg-key)
+  - [Telling Git about your signing key](#telling-git-about-your-signing-key)
 - [Useful links](#useful-links)
 
 # Introduction
@@ -1183,6 +1184,46 @@ Copy your GPG key, beginning with `-----BEGIN PGP PUBLIC KEY BLOCK-----` and end
 5. In the "Key" field, paste the GPG key you copied when you generated your GPG key.
 6. Click Add GPG key.
 7. If prompted, authenticate to your GitHub account to confirm the action.
+
+## Telling Git about your signing key
+
+<https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key?platform=linux>
+
+If you have previously configured Git to use a different key format when signing with `--gpg-sign`, unset this configuration so the default format of openpgp will be used.
+
+```console
+git config --global --unset gpg.format
+```
+
+Use `gpg --list-secret-keys --keyid-format=long` to list the long form of the GPG keys for which you have both a public and private key.
+
+```console
+gpg --list-secret-keys --keyid-format=long
+```
+
+From the list of GPG keys, copy the long form of the GPG key ID you'd like to use. In this example, the GPG key ID is 3AA5C34371567BD2.
+
+```
+$ gpg --list-secret-keys --keyid-format=long
+/Users/hubot/.gnupg/secring.gpg
+------------------------------------
+sec   4096R/3AA5C34371567BD2 2016-03-10 [expires: 2017-03-10]
+uid                          Hubot <hubot@example.com>
+ssb   4096R/4BB6D45482678BE3 2016-03-10
+```
+
+To set your primary GPG signing key in Git, paste the text below, substituting in the GPG primary key ID you'd like to use.
+
+```console
+git config --global user.signingkey 3AA5C34371567BD2
+```
+
+Configure Git to sign all commits and tags by default.
+
+```console
+git config --global commit.gpgsign true
+git config --global tag.gpgSign true
+```
 
 # Useful links
 
