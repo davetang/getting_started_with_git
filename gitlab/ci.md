@@ -1,3 +1,13 @@
+## Table of Contents
+
+- [Getting started with GitLab CI/CD](#getting-started-with-gitlab-cicd)
+  - [Pipelines](#pipelines)
+  - [Jobs](#jobs)
+    - [Job control](#job-control)
+  - [Example](#example)
+  - [Local testing](#local-testing)
+- [References](#references)
+
 # Getting started with GitLab CI/CD
 
 The [quick start guide](https://docs.gitlab.com/ee/ci/quick_start/) provides a
@@ -150,6 +160,16 @@ perform:
 * Use the [default
   keyword](https://docs.gitlab.com/ee/ci/yaml/index.html#default) to specify
   additional configurations that are applied to all jobs.
+
+## Local testing
+
+Tired of pushing to test your `.gitlab-ci.yml`? Use [gitlab-ci-local](https://github.com/firecow/gitlab-ci-local)! This can be [easily installed](https://github.com/davetang/install_scripts/blob/main/scripts/gitlab_ci_local.sh) using `npm`.
+
+After installing, to test `my-job` run the following:
+
+```console
+gitlab-ci-local my-job
+```
 
 # References
 
