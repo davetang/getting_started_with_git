@@ -1206,6 +1206,19 @@ gpg --import privkey.asc
 gpg --list-secret-keys --keyid-format=long
 ```
 
+If you are timing out when trying to import the private key, make sure you have the following:
+
+1. Add the following in your shell profile: `export GPG_TTY=$(tty)`
+2. Add the setting below in `~/.gnupg/gpg-agent.conf`:
+    * `pinentry-program /usr/bin/pinentry-curses`
+
+After making the changes restart the agent:
+
+```console
+gpgconf --kill gpg-agent
+gpgconf --launch gpg-agent
+```
+
 ## Telling Git about your signing key
 
 <https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key?platform=linux>
