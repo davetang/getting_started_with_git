@@ -12,6 +12,7 @@
     - [Renaming a branch](#renaming-a-branch)
     - [Default git init branch](#default-git-init-branch)
     - [HEAD](#head)
+    - [Rebase](#rebase)
   - [Tagging](#tagging)
   - [Remotes](#remotes)
   - [Useful commands](#useful-commands)
@@ -432,6 +433,10 @@ ref: refs/heads/head_check
 HEAD can point to any commit and it does not need to be the last commit in any branch. When HEAD points to a commit that is not the last commit in a branch, it is a detached HEAD. [In addition](https://www.sbf5.com/~cduan/technical/git/git-1.shtml#heads):
 
 >A head is simply a reference to a commit object. Each head has a name (branch name or tag name, etc). By default, there is a head in every repository called master. A repository can contain any number of heads. At any given time, one head is selected as the "current head." This head is aliased to HEAD and is always in capitals. Note this difference: a "head" (lowercase) refers to any one of the named heads in the repository; "HEAD" (uppercase) refers exclusively to the currently active head. This distinction is used frequently in Git documentation.
+
+### Rebase
+
+`git rebase` is a way to replay your commits on top of a different branch. Instead of merging two branches together (which creates a merge commit), rebase takes all your commits and re-applies them on top of another branch. This keeps your history linear and clean.
 
 ## Tagging
 
