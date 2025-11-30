@@ -141,3 +141,24 @@ When you're done, exit bisect mode:
 ```console
 git bisect reset
 ```
+
+Remove the bad commit.
+
+```console
+git revert 1b16d20e7c47c2e669addb70ba5a1708fb2799bc
+```
+
+Correct output.
+
+```console
+/bisect_demo/calculator.py
+```
+```
+2 + 3 = 5
+10 - 4 = 6
+6 * 7 = 42
+20 / 4 = 5.0
+2 ^ 8 = 256
+5 squared = 25
+3 cubed = 27
+```
