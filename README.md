@@ -142,7 +142,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 We can see that the file is untracked; we use [git add](https://git-scm.com/docs/git-add) to stage the file.
 
 ```bash
-git add hello.txt 
+git add hello.txt
 ```
 
 Now we commit the file using [git commit](https://git-scm.com/docs/git-commit); it is good practice to add a message to your commit to help you keep track of all your commits.
@@ -640,12 +640,12 @@ rm now.sh
 git status
 # On branch main
 # Your branch is up to date with 'origin/main'.
-# 
+#
 # Changes not staged for commit:
 #   (use "git add/rm <file>..." to update what will be committed)
 #   (use "git restore <file>..." to discard changes in working directory)
 #         deleted:    now.sh
-# 
+#
 # no changes added to commit (use "git add" and/or "git commit -a")
 
 git restore now.sh
@@ -659,12 +659,12 @@ echo blah >> now.sh
 git status
 # On branch main
 # Your branch is up to date with 'origin/main'.
-# 
+#
 # Changes not staged for commit:
 #   (use "git add <file>..." to update what will be committed)
 #   (use "git restore <file>..." to discard changes in working directory)
 #         modified:   now.sh
-# 
+#
 # no changes added to commit (use "git add" and/or "git commit -a")
 
 git restore now.sh
@@ -755,11 +755,11 @@ touch test.txt
 git status
 # On branch main
 # Your branch is up to date with 'origin/main'.
-# 
+#
 # Untracked files:
 #   (use "git add <file>..." to include in what will be committed)
 #         test.txt
-# 
+#
 # nothing added to commit but untracked files present (use "git add" to track)
 ```
 
@@ -789,20 +789,17 @@ git clean -fd
 
 ### Git revert
 
-[Git
-revert](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting)
-is an operation that takes a specified commit and creates a new commit which
-inverses the specified commit. `git revert` can only be run at a commit level
-scope and has no file level functionality.
+[Git revert](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting) is an operation that takes a specified commit and creates a new commit which inverses the specified commit. `git revert` can only be run at a commit level scope and has no file level functionality.
 
 Let's create a commit that we will revert.
 
-```bash
+```console
 echo bad > bad.txt
 git add bad.txt
 git commit -m 'Add bad.txt'
-
 git log --oneline | head -5
+```
+```
 dfaccc3 Add bad.txt
 37e3241 Note about HEAD
 60c4eb6 Branching example
@@ -810,14 +807,13 @@ dfaccc3 Add bad.txt
 eac414a Merge branch 'main' of github.com:davetang/getting_started_with_git into main
 ```
 
-We can use [HEAD](#head) to refer to the latest commit and revert this. Note
-that the "bad" commit still exists in the commit history, we simply created a
-new commit that reverted the last commit.
+We can use [HEAD](#head) to refer to the latest commit and revert this. Note that the "bad" commit still exists in the commit history, we simply created a new commit that reverted the last commit.
 
-```bash
+```console
 git revert HEAD
-
 git log --oneline | head -5
+```
+```
 1e3d615 Revert "Add bad.txt"
 dfaccc3 Add bad.txt
 37e3241 Note about HEAD
@@ -825,11 +821,12 @@ dfaccc3 Add bad.txt
 9c3f973 echo sleep time
 ```
 
-`bad.txt` no longer exists in the working directory but we could recover in the
-future if we wanted.
+`bad.txt` no longer exists in the working directory but we could recover in the future if we wanted.
 
-```bash
+```console
 ls bad.txt
+```
+```
 ls: cannot access bad.txt: No such file or directory
 ```
 
@@ -851,6 +848,29 @@ git checkout main
 ```
 Previous HEAD position was dfaccc3 Add bad.txt
 Switched to branch 'main'
+```
+
+One way to find revert commits (but can also list commits where the commit message starts with Revert):
+
+```console
+git log --grep "^Revert"
+```
+```
+commit 0500c79e5036e3943b1ad0d6b30e24ca3c5f5afd
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Sun Nov 30 22:31:31 2025 +0900
+
+    Revert "Modify add function"
+
+    This reverts commit 1b16d20e7c47c2e669addb70ba5a1708fb2799bc.
+
+commit 1e3d6153babafa8abd1793a3af90e593755e8622
+Author: Dave Tang <davetingpongtang@gmail.com>
+Date:   Fri Mar 25 14:55:33 2022 +0900
+
+    Revert "Add bad.txt"
+
+    This reverts commit dfaccc3ed393fe3e647c80bf2211b768d25d040f.
 ```
 
 ## Stash
