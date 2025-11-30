@@ -413,26 +413,45 @@ nothing to commit (create/copy files and use "git add" to track)
 
 ### HEAD
 
-HEAD can be [considered](https://stackoverflow.com/questions/2304087/what-is-head-in-git) as the "current branch" and you can check what HEAD points to by checking `.git/HEAD`.
+[HEAD](https://stackoverflow.com/questions/2304087/what-is-head-in-git) is a pointer that tells Git where you currently are in the repository. Most of the time, HEAD points to a branch, and that branch points to a specific commit. When you make a new commit, the branch moves forward, and HEAD moves with it. You can check what HEAD points to by checking `.git/HEAD`.
 
-```bash
+```console
 cat .git/HEAD
+```
+```
 ref: refs/heads/main
 ```
 
 When we switch branches, the HEAD revision changes to point to the tip of the new branch.
 
-```bash
+```console
 git checkout -b head_check
+```
+```
 Switched to a new branch 'head_check'
-
+```
+```console
 cat .git/HEAD
+```
+```
 ref: refs/heads/head_check
 ```
 
+HEAD controls:
+
+1. Which branch you're on.
+2. What your working directory looks like.
+3. Where new commits will be added.
+
+When you run `git commit`, the commit is added where HEAD is pointing, and HEAD (along with the branch) moves forward to the new commit.
+
+`git reflog` tracks everywhere HEAD has been: every branch switch, every commit, every reset. That's why it's useful for recovery: if HEAD was pointing somewhere and you want to go back, `git reflog` tells you where that was.
+
 HEAD can point to any commit and it does not need to be the last commit in any branch. When HEAD points to a commit that is not the last commit in a branch, it is a detached HEAD. [In addition](https://www.sbf5.com/~cduan/technical/git/git-1.shtml#heads):
 
->A head is simply a reference to a commit object. Each head has a name (branch name or tag name, etc). By default, there is a head in every repository called master. A repository can contain any number of heads. At any given time, one head is selected as the "current head." This head is aliased to HEAD and is always in capitals. Note this difference: a "head" (lowercase) refers to any one of the named heads in the repository; "HEAD" (uppercase) refers exclusively to the currently active head. This distinction is used frequently in Git documentation.
+> A head is simply a reference to a commit object. Each head has a name (branch name or tag name, etc). By default, there is a head in every repository called master. A repository can contain any number of heads. At any given time, one head is selected as the "current head." This head is aliased to HEAD and is always in capitals. Note this difference: a "head" (lowercase) refers to any one of the named heads in the repository; "HEAD" (uppercase) refers exclusively to the currently active head. This distinction is used frequently in Git documentation.
+
+If you make commits in a detached HEAD, they won't be attached to a branch and can be lost.
 
 ### Rebase
 
