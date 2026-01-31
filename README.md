@@ -684,45 +684,27 @@ git commit --amend
 
 ### Git reset
 
-Notes from [Git Tools - Reset
-Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified) and
-[Resetting, Checking Out and
-Reverting](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting).
+Notes from [Git Tools - Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified) and [Resetting, Checking Out and Reverting](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting).
 
-A reset is an operation that takes a specified commit and resets [The Three
-Trees](#the-three-trees) to match the state of the repository at that specified
-commit. A reset can be invoked in three different modes, which correspond to
-the three trees.
+A reset is an operation that takes a specified commit and resets [The Three Trees](#the-three-trees) to match the state of the repository at that specified commit. A reset can be invoked in three different modes, which correspond to the three trees.
 
-[Checkout](#git-checkout) and reset are generally used for making local or
-private changes. They modify the history of a repository that can cause
-conflicts when pushing to remote. [Revert](#git-revert) is considered a safe
-operation for "public undos" as it creates new history that can be shared
-remotely and does not overwrite history that remote users may be dependent on.
-`git reset` is a simple way to undo changes that haven't been shared with
-anyone else.
+[Checkout](#git-checkout) and reset are generally used for making local or private changes. They modify the history of a repository that can cause conflicts when pushing to remote. [Revert](#git-revert) is considered a safe operation for "public undos" as it creates new history that can be shared remotely and does not overwrite history that remote users may be dependent on. `git reset` is a simple way to undo changes that haven't been shared with anyone else.
 
-Parameters used with `git reset` determine its scope; when a file path is not
-used, reset operates on whole commits.
+Parameters used with `git reset` determine its scope; when a file path is not used, reset operates on whole commits.
 
-To move backwards two commits on the `hotfix` branch, i.e. throw away the last
-two commits.
+To move backwards two commits on the `hotfix` branch, i.e. throw away the last two commits.
 
 ```bash
 git checkout hotfix git reset HEAD~2
 ```
 
-The two commits that were on the end of `hotfix` are orphaned commits and will
-be deleted next time Git performs a garbage collection.
+The two commits that were on the end of `hotfix` are orphaned commits and will be deleted next time Git performs a garbage collection.
 
-`git reset` can alter the staged snapshot (Index in the three trees) and/or the
-working directory when used with one of the following flags:
+`git reset` can alter the staged snapshot (Index in the three trees) and/or the working directory when used with one of the following flags:
 
 * `--soft` - the staged snapshot and working directory are not altered in any way.
-* `--mixed` - the staged snapshot is updated to match the specified commit, but
-the working directory is not affected. This is the default.
-* `--hard` - the staged snapshot and the working directory are both updated to
-match the specified commit.
+* `--mixed` - the staged snapshot is updated to match the specified commit, but the working directory is not affected. This is the default.
+* `--hard` - the staged snapshot and the working directory are both updated to match the specified commit.
 
 Reset latest change.
 
@@ -738,10 +720,15 @@ Use `reset --hard` to reset HEAD, index and working directory.
 
 ```bash
 git reset --hard
+
+# Undo the last commit and discard the changes
+# git reset --hard HEAD~1
+
+# Then force push to remote
+# git push origin <branch-name> --force
 ```
 
-When `git reset` is used with a file path, the staged snapshot is updated to
-match the version from the specified commit.
+When `git reset` is used with a file path, the staged snapshot is updated to match the version from the specified commit.
 
 ### Git clean
 
