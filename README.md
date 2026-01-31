@@ -31,6 +31,12 @@
     - [Encrypted secrets](#encrypted-secrets)
     - [Safe directory](#safe-directory)
 - [Aliases](#aliases)
+- [Git Hooks](#git-hooks)
+  - [Available hooks](#available-hooks)
+  - [Pre-commit hook](#pre-commit-hook)
+  - [Commit-msg hook](#commit-msg-hook)
+  - [Pre-push hook](#pre-push-hook)
+  - [Sharing hooks](#sharing-hooks)
 - [Signing commits](#signing-commits)
   - [Generating a new GPG key](#generating-a-new-gpg-key)
   - [Exporting GPG keys](#exporting-gpg-keys)
@@ -1145,6 +1151,312 @@ alias grm='git rm'
 alias gst='git status'
 alias gsw='git switch'
 ```
+
+# Git Hooks
+
+Git hooks are scripts that run automatically when certain Git events occur, such as committing, pushing, or merging. They allow you to automate tasks, enforce standards, and prevent problematic commits from entering your repository.
+
+Hooks are stored in the `.git/hooks` directory of every Git repository. When you initialise a repository, Git creates sample hooks with the `.sample` extension.
+
+```console
+ls .git/hooks
+```
+```
+applypatch-msg.sample      pre-applypatch.sample      pre-rebase.sample
+commit-msg.sample          pre-commit.sample          pre-receive.sample
+fsmonitor-watchman.sample  pre-merge-commit.sample    prepare-commit-msg.sample
+post-update.sample         pre-push.sample            update.sample
+```
+
+To enable a hook, remove the `.sample` extension and make it executable. Hooks can be written in any scripting language (Bash, Python, Perl, etc.) as long as they are executable.
+
+## Available hooks
+
+Hooks are divided into client-side and server-side:
+
+**Client-side hooks** (run on your local machine):
+
+| Hook | Trigger |
+|------|---------|
+| `pre-commit` | Before a commit is created (after `git commit`) |
+| `prepare-commit-msg` | After default message is created, before editor opens |
+| `commit-msg` | After commit message is entered, before commit is finalised |
+| `post-commit` | After a commit is created |
+| `pre-rebase` | Before a rebase starts |
+| `post-rewrite` | After commands that rewrite commits (`git commit --amend`, `git rebase`) |
+| `pre-push` | Before a push to remote |
+| `post-checkout` | After `git checkout` or `git switch` |
+| `post-merge` | After a successful merge |
+
+**Server-side hooks** (run on the remote server):
+
+| Hook | Trigger |
+|------|---------|
+| `pre-receive` | Before any refs are updated |
+| `update` | Like pre-receive but runs once per branch being updated |
+| `post-receive` | After all refs have been updated |
+
+## Pre-commit hook
+
+The `pre-commit` hook runs before a commit is created. If it exits with a non-zero status, the commit is aborted. This is useful for running linters, formatters, or tests.
+
+Create `.git/hooks/pre-commit`:
+
+```bash
+#!/usr/bin/env bash
+
+# Prevent committing to main/master directly
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$branch" == "main" || "$branch" == "master" ]]; then
+    echo "Error: Direct commits to $branch are not allowed."
+    echo "Please create a feature branch and submit a pull request."
+    exit 1
+fi
+```
+
+Make it executable:
+
+```console
+chmod +x .git/hooks/pre-commit
+```
+
+A more practical example that checks for common issues:
+
+```bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Check for debug statements in staged Python files
+if git diff --cached --name-only | grep -q '\.py$'; then
+    if git diff --cached | grep -E '^\+.*\b(print\(|pdb|breakpoint\(\))' | grep -v '# noqa'; then
+        echo "Error: Debug statements found in staged files."
+        echo "Remove print(), pdb, or breakpoint() before committing."
+        exit 1
+    fi
+fi
+
+# Check for large files (> 5MB)
+large_files=$(git diff --cached --name-only --diff-filter=d | while read -r file; do
+    size=$(wc -c < "$file" 2>/dev/null || echo 0)
+    if [[ $size -gt 5242880 ]]; then
+        echo "$file ($(numfmt --to=iec $size))"
+    fi
+done)
+
+if [[ -n "$large_files" ]]; then
+    echo "Error: Large files detected:"
+    echo "$large_files"
+    echo "Consider using Git LFS for large files."
+    exit 1
+fi
+
+# Run a linter if available
+if command -v shellcheck &> /dev/null; then
+    shell_files=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(sh|bash)$' || true)
+    if [[ -n "$shell_files" ]]; then
+        echo "Running shellcheck..."
+        echo "$shell_files" | xargs shellcheck || exit 1
+    fi
+fi
+
+echo "Pre-commit checks passed."
+exit 0
+```
+
+## Commit-msg hook
+
+The `commit-msg` hook validates or modifies the commit message. It receives the path to a temporary file containing the message as its first argument.
+
+Create `.git/hooks/commit-msg` to enforce conventional commit format:
+
+```bash
+#!/usr/bin/env bash
+
+commit_msg_file="$1"
+commit_msg=$(cat "$commit_msg_file")
+
+# Conventional commit pattern: type(scope): description
+# Types: feat, fix, docs, style, refactor, test, chore
+pattern="^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .{1,50}"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+    echo "Error: Commit message does not follow conventional commit format."
+    echo ""
+    echo "Expected format: type(scope): description"
+    echo ""
+    echo "Types: feat, fix, docs, style, refactor, test, chore"
+    echo ""
+    echo "Examples:"
+    echo "  feat(auth): add OAuth2 login support"
+    echo "  fix: resolve null pointer exception"
+    echo "  docs(readme): update installation instructions"
+    echo ""
+    echo "Your message: $commit_msg"
+    exit 1
+fi
+
+exit 0
+```
+
+A simpler hook that just enforces minimum message length:
+
+```bash
+#!/usr/bin/env bash
+
+commit_msg_file="$1"
+commit_msg=$(cat "$commit_msg_file")
+min_length=10
+
+# Ignore merge commits
+if echo "$commit_msg" | grep -qE "^Merge "; then
+    exit 0
+fi
+
+if [[ ${#commit_msg} -lt $min_length ]]; then
+    echo "Error: Commit message must be at least $min_length characters."
+    echo "Your message (${#commit_msg} chars): $commit_msg"
+    exit 1
+fi
+
+exit 0
+```
+
+## Pre-push hook
+
+The `pre-push` hook runs before a push and can prevent pushes to certain branches or run tests.
+
+Create `.git/hooks/pre-push`:
+
+```bash
+#!/usr/bin/env bash
+
+# Prevent force pushing to protected branches
+protected_branches=("main" "master" "develop")
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if this is a force push
+if [[ "$*" == *"--force"* ]] || [[ "$*" == *"-f"* ]]; then
+    for branch in "${protected_branches[@]}"; do
+        if [[ "$current_branch" == "$branch" ]]; then
+            echo "Error: Force pushing to $branch is not allowed."
+            exit 1
+        fi
+    done
+fi
+
+# Read the pushed refs from stdin
+while read -r local_ref local_sha remote_ref remote_sha; do
+    # Extract branch name from ref
+    remote_branch=${remote_ref#refs/heads/}
+
+    for branch in "${protected_branches[@]}"; do
+        if [[ "$remote_branch" == "$branch" ]]; then
+            echo "Pushing to $branch, running tests..."
+
+            # Run tests before pushing to protected branches
+            if command -v pytest &> /dev/null; then
+                if ! pytest --quiet; then
+                    echo "Error: Tests failed. Push to $branch aborted."
+                    exit 1
+                fi
+            fi
+        fi
+    done
+done
+
+exit 0
+```
+
+## Sharing hooks
+
+Since `.git/hooks` is not tracked by Git, hooks are not shared when cloning a repository. There are several ways to share hooks with your team:
+
+### Method 1: Store hooks in the repository
+
+Create a `hooks/` or `.githooks/` directory in your repository:
+
+```console
+mkdir .githooks
+cp .git/hooks/pre-commit .githooks/
+git add .githooks/
+git commit -m 'Add shared Git hooks'
+```
+
+Team members configure Git to use this directory:
+
+```console
+git config core.hooksPath .githooks
+```
+
+Or set it globally for all repositories:
+
+```console
+git config --global core.hooksPath ~/.githooks
+```
+
+### Method 2: Installation script
+
+Create a setup script that symlinks hooks:
+
+```bash
+#!/usr/bin/env bash
+# install-hooks.sh
+
+HOOK_DIR=".git/hooks"
+SOURCE_DIR=".githooks"
+
+for hook in "$SOURCE_DIR"/*; do
+    hook_name=$(basename "$hook")
+    ln -sf "../../$SOURCE_DIR/$hook_name" "$HOOK_DIR/$hook_name"
+    echo "Installed $hook_name hook"
+done
+```
+
+### Method 3: Use a hook manager
+
+Tools like [pre-commit](https://pre-commit.com/) provide a framework for managing hooks:
+
+```console
+pip install pre-commit
+```
+
+Create `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+```
+
+Install the hooks:
+
+```console
+pre-commit install
+```
+
+Now hooks run automatically and the configuration is version-controlled.
+
+### Bypassing hooks
+
+When necessary, you can skip hooks using `--no-verify`:
+
+```console
+git commit --no-verify -m "Emergency fix"
+git push --no-verify
+```
+
+Use this sparingly and only when you have a legitimate reason to bypass the checks.
 
 # Signing commits
 
